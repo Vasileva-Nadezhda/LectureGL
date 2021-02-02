@@ -5,49 +5,45 @@ import com.badlogic.gdx.utils.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import com.badlogic.gdx.graphics.Mesh;
+
 import static com.badlogic.gdx.graphics.GL20.*;
 
-public class Figure {
+public class Figure implements Drawable {
 
     static Shader FigureShader = new Shader("core/assets/FigureVShader.vert",
             "core/assets/FigureFShader.frag");
-    final static IntBuffer vao = BufferUtils.newIntBuffer(1);
     float[] vertices;
     int[] indices;
 
     int VBO, VAO, EBO;
-    int indexCount;
     int uvSize = 0;
 
     public Figure(float[] vertices, int[] indices) {
         this.vertices = vertices;
         this.indices = indices;
-        this.indexCount = this.indices.length;
     }
 
-    public void initBuffers(){
+    public void init(){
         //Init buffers
+        IntBuffer vao = BufferUtils.newIntBuffer(1);
         vao.clear();
         Gdx.gl30.glGenVertexArrays(1, vao);
         this.VAO = vao.get();
         Gdx.gl30.glBindVertexArray(this.VAO);
         // Create VBO upload the vertex buffer
         this.VBO = Gdx.gl20.glGenBuffer();
-        FloatBuffer vert = FloatBuffer.allocate(this.vertices.length);
+        FloatBuffer vert = BufferUtils.newFloatBuffer(this.vertices.length);
         vert.put(this.vertices);
         vert.flip();
         Gdx.gl20.glBindBuffer(GL_ARRAY_BUFFER, this.VBO);
-        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.SIZE*this.vertices.length, vert, GL_STATIC_DRAW);
-        vert = null;
+        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.vertices.length, vert, GL_STATIC_DRAW);
         // Create the indices and upload
         this.EBO = Gdx.gl20.glGenBuffer();
-        IntBuffer ind = IntBuffer.allocate(this.indices.length);
+        IntBuffer ind = BufferUtils.newIntBuffer(this.indices.length);
         ind.put(this.indices);
         ind.flip();
         Gdx.gl20.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.EBO);
         Gdx.gl20.glBufferData(GL_ELEMENT_ARRAY_BUFFER, Integer.SIZE*this.indices.length, ind, GL_STATIC_DRAW);
-        ind = null;
         // Add the vertex attribute pointers
         int positionsSize = 3;
         int colorSize = 4;
@@ -64,15 +60,17 @@ public class Figure {
         Gdx.gl30.glBindVertexArray(0);
     }
 
-    void draw(){
-        FigureShader.bind();
-        Gdx.gl30.glBindVertexArray(this.VAO);
-        Gdx.gl20.glDrawElements(GL_TRIANGLES, this.indexCount, GL_UNSIGNED_INT, 0);
-        Gdx.gl30. glBindVertexArray(0);
-        FigureShader.unbind();
+    public void draw() {
+       FigureShader.bind();
+       Gdx.gl30.glBindVertexArray(this.VAO);
+       Gdx.gl20.glDrawElements(GL_TRIANGLES, this.indices.length, GL_UNSIGNED_INT, 0);
+       Gdx.gl30.glBindVertexArray(0);
+       FigureShader.unbind();
+
     }
 
-    void CleanBuffers(){
+    public void dispose(){
+        IntBuffer vao = BufferUtils.newIntBuffer(1);
         vao.clear();
         vao.put(this.VAO);
         vao.flip();

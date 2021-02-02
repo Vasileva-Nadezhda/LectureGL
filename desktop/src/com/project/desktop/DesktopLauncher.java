@@ -7,7 +7,9 @@ import com.project.Window;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title="SukaKakIHateYou";
+		config.allowSoftwareMode=true;
+		config.useGL30 = true;
+		config.title="KakIHateYou";
 		config.width = 800;
 		config.height = 450;
 		new LwjglApplication(new Window(), config);

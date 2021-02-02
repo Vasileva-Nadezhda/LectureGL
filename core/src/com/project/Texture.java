@@ -9,17 +9,16 @@ import java.nio.ByteBuffer;
 import static com.badlogic.gdx.graphics.GL20.*;
 import static com.project.PNGDecoder.RGBA;
 
-public class Texture extends Figure {
+public class Texture extends Figure implements Drawable {
 
     static Shader TextureShader = new Shader("core/assets/TextureVShader.vert",
             "core/assets//TextureFShader.frag");
 
     int textureID;
 
-    public Texture (float[] vertices, int[] indices, String location) {
+    public Texture (float[] vertices, int[] indices) {
         super(vertices, indices);
         this.uvSize = 2;
-        this.textureID = loadTexture(location);
     }
 
     @Override
@@ -27,17 +26,17 @@ public class Texture extends Figure {
         Gdx.gl30.glBindTexture(GL_TEXTURE_2D, this.textureID);
         TextureShader.bind();
         Gdx.gl30.glBindVertexArray(this.VAO);
-        Gdx.gl30.glDrawElements(GL_TRIANGLES, this.indexCount, GL_UNSIGNED_INT, 0);
+        Gdx.gl30.glDrawElements(GL_TRIANGLES, this.indices.length, GL_UNSIGNED_INT, 0);
         Gdx.gl30.glBindVertexArray(0);
         TextureShader.unbind();
         Gdx.gl30. glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    private static int loadTexture(String location) {
+    public void init(String location) {
+        super.init();
         ByteBuffer image_buffer = null;
         int textureWidth = 0;
         int textureHeight = 0;
-
         try(InputStream in = new FileInputStream(location)) {
             // Link the PNG decoder to this stream
             PNGDecoder decoder = new PNGDecoder(in);
@@ -72,7 +71,12 @@ public class Texture extends Figure {
         Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                 GL_LINEAR);
         Gdx.gl20.glBindTexture(GL_TEXTURE_2D, 0);
-        return textureID;
+        this.textureID = textureID;
+    }
+
+    public void dispose() {
+        super.dispose();
+        Gdx.gl.glDeleteTexture(this.textureID);
     }
 
 }
