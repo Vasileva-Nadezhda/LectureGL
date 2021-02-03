@@ -17,6 +17,8 @@ public class Window extends ApplicationAdapter{
 	Figure figure2;
 	static BitmapFont font;
 	SpriteBatch batch;
+	int x = 800, y = 450;
+	float sc =.2f;
 
 	@Override
 	public void create () {
@@ -73,13 +75,16 @@ public class Window extends ApplicationAdapter{
 		figure1.draw();
 		figure2.draw();
 		batch.begin();
-		font.getData().setScale(.2f);
-		font.draw(batch, "glyph", 800, 450);
+		font.getData().setScale(sc);
+		font.draw(batch, "AXAXAXAXAXAX", x, y);
 		batch.end();
 		if (Gdx.input.isKeyPressed(ESCAPE)){
 			dispose();
 			System.exit(0);
 		}
+		x -= 3;
+		y -= 1;
+		sc +=0.01f;
 	}
 
 	@Override
