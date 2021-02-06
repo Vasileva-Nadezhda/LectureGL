@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 
 import java.util.Scanner;
 
-import static com.badlogic.gdx.graphics.GL20.GL_FRAGMENT_SHADER;
-import static com.badlogic.gdx.graphics.GL20.GL_VERTEX_SHADER;
+import static com.badlogic.gdx.graphics.GL30.GL_FRAGMENT_SHADER;
+import static com.badlogic.gdx.graphics.GL30.GL_VERTEX_SHADER;
 
 public class Shader {
 
@@ -36,8 +36,8 @@ public class Shader {
 
     private void compileShader(StringBuilder shader_file_path, String shaderSourcePointer, int shaderID) {
         System.out.printf("Compiling shader : %s\n", shader_file_path);
-        Gdx.gl20.glShaderSource(shaderID, shaderSourcePointer);
-        Gdx.gl20.glCompileShader(shaderID);
+        Gdx.gl30.glShaderSource(shaderID, shaderSourcePointer);
+        Gdx.gl30.glCompileShader(shaderID);
         //Check Vertex Shader
 //        if ((glGetShaderi(shaderID, GL_COMPILE_STATUS) != 1) && (glGetShaderi(shaderID, GL_INFO_LOG_LENGTH) > 0)){
 //            System.out.println(glGetShaderInfoLog(shaderID, GL_INFO_LOG_LENGTH));
@@ -47,8 +47,8 @@ public class Shader {
 
     int loadShaders(StringBuilder vertex_file_path, StringBuilder fragment_file_path) {
         // Create the shaders
-        int vertexShaderID = Gdx.gl20.glCreateShader(GL_VERTEX_SHADER);
-        int fragmentShaderID = Gdx.gl20.glCreateShader(GL_FRAGMENT_SHADER);
+        int vertexShaderID = Gdx.gl30.glCreateShader(GL_VERTEX_SHADER);
+        int fragmentShaderID = Gdx.gl30.glCreateShader(GL_FRAGMENT_SHADER);
         // Read the Vertex Shader code from the file
         String VertexShaderCode = readShaderCode(vertex_file_path.toString());
         // Read the Fragment Shader code from the file
@@ -59,19 +59,19 @@ public class Shader {
         compileShader(fragment_file_path, FragmentShaderCode, fragmentShaderID);
         // Link the program
         System.out.print("Linking program\n");
-        int ProgramID = Gdx.gl20.glCreateProgram();
-        Gdx.gl20.glAttachShader(ProgramID, vertexShaderID);
-        Gdx.gl20.glAttachShader(ProgramID, fragmentShaderID);
-        Gdx.gl20.glLinkProgram(ProgramID);
+        int ProgramID = Gdx.gl30.glCreateProgram();
+        Gdx.gl30.glAttachShader(ProgramID, vertexShaderID);
+        Gdx.gl30.glAttachShader(ProgramID, fragmentShaderID);
+        Gdx.gl30.glLinkProgram(ProgramID);
         // Check the program
 //        if ((glGetProgrami(ProgramID, GL_INFO_LOG_LENGTH) > 0) && (glGetProgrami(ProgramID, GL_LINK_STATUS) != 1)){
 //            System.out.println(glGetProgramInfoLog(ProgramID, GL_INFO_LOG_LENGTH));
 //            System.exit(-1);
 //        }
-        Gdx.gl20.glDetachShader(ProgramID, vertexShaderID);
-        Gdx.gl20.glDetachShader(ProgramID, fragmentShaderID);
-        Gdx.gl20.glDeleteShader(vertexShaderID);
-        Gdx.gl20.glDeleteShader(fragmentShaderID);
+        Gdx.gl30.glDetachShader(ProgramID, vertexShaderID);
+        Gdx.gl30.glDetachShader(ProgramID, fragmentShaderID);
+        Gdx.gl30.glDeleteShader(vertexShaderID);
+        Gdx.gl30.glDeleteShader(fragmentShaderID);
         System.out.print("Done.\n");
         return ProgramID;
     }

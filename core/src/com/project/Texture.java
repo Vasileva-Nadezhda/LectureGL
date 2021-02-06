@@ -9,13 +9,13 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-import static com.badlogic.gdx.graphics.GL20.*;
+import static com.badlogic.gdx.graphics.GL30.*;
 import static com.project.PNGDecoder.RGBA;
 
 public class Texture extends Figure implements Drawable {
 
     static Shader TextureShader = new Shader("core/assets/TextureVShader.vert",
-            "core/assets//TextureFShader.frag");
+            "core/assets/TextureFShader.frag");
 
     int textureID;
     int posVBO;
@@ -44,9 +44,10 @@ public class Texture extends Figure implements Drawable {
         FloatBuffer poses = BufferUtils.newFloatBuffer(this.positions.length);
         poses.put(this.positions);
         poses.flip();
-        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.positions.length, poses, GL_STATIC_DRAW);
-        Gdx.gl20.glVertexAttribPointer(2, 2, GL_FLOAT, false, 0,  0);
-        Gdx.gl20.glEnableVertexAttribArray(2);
+        Gdx.gl.glBindBuffer(GL_ARRAY_BUFFER, this.posVBO);
+        Gdx.gl30.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.positions.length, poses, GL_STATIC_DRAW);
+        Gdx.gl30.glVertexAttribPointer(2, 2, GL_FLOAT, false, 0,  0);
+        Gdx.gl30.glEnableVertexAttribArray(2);
         Gdx.gl30.glBindVertexArray(0);
         ByteBuffer image_buffer = null;
         int textureWidth = 0;
@@ -67,24 +68,24 @@ public class Texture extends Figure implements Drawable {
             System.exit(-1);
         }
         // Create a new texture object in memory and bind it
-        int textureID = Gdx.gl20.glGenTexture();
-        Gdx.gl20.glActiveTexture(GL_TEXTURE0);
-        Gdx.gl20.glBindTexture(GL_TEXTURE_2D, textureID);
+        int textureID = Gdx.gl30.glGenTexture();
+        Gdx.gl30.glActiveTexture(GL_TEXTURE0);
+        Gdx.gl30.glBindTexture(GL_TEXTURE_2D, textureID);
         // All RGB bytes are aligned to each other and each component is 1 byte
-        Gdx.gl20.glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        Gdx.gl30.glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         // Upload the texture data and generate mip maps (for scaling)
-        Gdx.gl20.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0,
+        Gdx.gl30.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0,
                 GL_RGBA, GL_UNSIGNED_BYTE, image_buffer);
-        Gdx.gl20.glGenerateMipmap(GL_TEXTURE_2D);
+        Gdx.gl30.glGenerateMipmap(GL_TEXTURE_2D);
         // Setup the ST coordinate system
-        Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        Gdx.gl30.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        Gdx.gl30.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         // Setup what to do when the texture has to be scaled
-        Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+        Gdx.gl30.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
                 GL_LINEAR);
-        Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+        Gdx.gl30.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                 GL_LINEAR);
-        Gdx.gl20.glBindTexture(GL_TEXTURE_2D, 0);
+        Gdx.gl30.glBindTexture(GL_TEXTURE_2D, 0);
         this.textureID = textureID;
     }
 
