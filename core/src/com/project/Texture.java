@@ -1,10 +1,13 @@
 package com.project;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.BufferUtils;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 
 import static com.badlogic.gdx.graphics.GL20.*;
 import static com.project.PNGDecoder.RGBA;
@@ -15,10 +18,12 @@ public class Texture extends Figure implements Drawable {
             "core/assets//TextureFShader.frag");
 
     int textureID;
+    int posVBO;
+    float[] positions;
 
-    public Texture (float[] vertices, int[] indices) {
-        super(vertices, indices);
-        this.uvSize = 2;
+    public Texture (float[] vertices, float[] colors, float[] positions, int[] indices) {
+        super(vertices, colors, indices);
+        this.positions = positions;
     }
 
     @Override
@@ -29,11 +34,20 @@ public class Texture extends Figure implements Drawable {
         Gdx.gl30.glDrawElements(GL_TRIANGLES, this.indices.length, GL_UNSIGNED_INT, 0);
         Gdx.gl30.glBindVertexArray(0);
         TextureShader.unbind();
-        Gdx.gl30. glBindTexture(GL_TEXTURE_2D, 0);
+        Gdx.gl30.glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     public void init(String location) {
         super.init();
+        Gdx.gl30.glBindVertexArray(this.VAO);
+        this.posVBO = Gdx.gl.glGenBuffer();
+        FloatBuffer poses = BufferUtils.newFloatBuffer(this.positions.length);
+        poses.put(this.positions);
+        poses.flip();
+        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.positions.length, poses, GL_STATIC_DRAW);
+        Gdx.gl20.glVertexAttribPointer(2, 2, GL_FLOAT, false, 0,  0);
+        Gdx.gl20.glEnableVertexAttribArray(2);
+        Gdx.gl30.glBindVertexArray(0);
         ByteBuffer image_buffer = null;
         int textureWidth = 0;
         int textureHeight = 0;

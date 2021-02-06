@@ -56,7 +56,7 @@ public class Font implements Drawable {
         parameter.color = this.color;
         this.font = generator.generateFont(parameter);
         generator.dispose();
-        setCoordinates(this.x, this.y);
+        setCoordinates();
     }
 
     public void draw() {
@@ -66,31 +66,31 @@ public class Font implements Drawable {
         this.batch.end();
     }
 
-    public void setCoordinates(float x, float y) {
+    public void setCoordinates() {
         if (x0 == -1.0f) {
             this.x = 0;
         }
         else if (x0 == 0.0f) {
-            this.x = (int) Gdx.graphics.getWidth() / 2;
+            this.x = Gdx.graphics.getWidth() / 2;
         }
         else if (x0 == 1.0f) {
-            this.x = (int) Gdx.graphics.getWidth();
+            this.x = Gdx.graphics.getWidth();
         }
         else {
             this.x = (this.x0>=0) ? (int)(x0 * (Gdx.graphics.getWidth()/2) + Gdx.graphics.getWidth()/2) : (int)(-x0 * (Gdx.graphics.getWidth()/2));
         }
 
         if (y0 == -1.0f) {
-            this.y = (int) (0-this.font.getData().ascent);
+            this.y = 0;
         }
         else if (y0 == 0.0f) {
-            this.y = (int) (Gdx.graphics.getHeight() / 2 - this.font.getData().ascent);
+            this.y = Gdx.graphics.getHeight() / 2;
         }
         else if (y0 == 1.0f) {
-            this.y = (int) (Gdx.graphics.getHeight() - this.font.getData().ascent);
+            this.y = Gdx.graphics.getHeight();
         }
         else {
-            this.y = (this.y0>=0) ? (int)(y0 * (Gdx.graphics.getHeight()/2) + Gdx.graphics.getHeight()/2 - this.font.getData().ascent) : (int)(-y0 * (Gdx.graphics.getHeight()/2) - this.font.getData().ascent);
+            this.y = (this.y0>=0) ? (int)(y0 * (Gdx.graphics.getHeight()/2) + Gdx.graphics.getHeight()/2) : (int)(-y0 * (Gdx.graphics.getHeight()/2));
         }
     }
 
