@@ -39,14 +39,14 @@ public class Texture extends Figure implements Drawable {
 
     public void init(String location) {
         super.init();
-        Gdx.gl30.glBindVertexArray(this.VAO);
+        this.posVBO = Gdx.gl.glGenBuffer();
         this.initPositions();
         this.initTexture(location);
         Gdx.gl30.glBindVertexArray(0);
     }
 
     public void initPositions() {
-        this.posVBO = Gdx.gl.glGenBuffer();
+        Gdx.gl30.glBindVertexArray(this.VAO);
         FloatBuffer poses = BufferUtils.newFloatBuffer(this.positions.length);
         poses.put(this.positions);
         poses.flip();
@@ -54,6 +54,7 @@ public class Texture extends Figure implements Drawable {
         Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.positions.length, poses, GL_STATIC_DRAW);
         Gdx.gl20.glVertexAttribPointer(2, 2, GL_FLOAT, false, 0,  0);
         Gdx.gl20.glEnableVertexAttribArray(2);
+        Gdx.gl30.glBindVertexArray(0);
     }
 
     public void initTexture(String location) {

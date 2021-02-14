@@ -29,11 +29,13 @@ public class Figure implements Drawable {
         vao.clear();
         Gdx.gl30.glGenVertexArrays(1, vao);
         this.VAO = vao.get();
-        Gdx.gl30.glBindVertexArray(this.VAO);
         // Create VBO upload the vertex buffer
+        this.vertVBO = Gdx.gl20.glGenBuffer();
         this.initVertices();
+        this.colVBO = Gdx.gl.glGenBuffer();
         this.initColors();
         // Create the indices and upload
+        Gdx.gl30.glBindVertexArray(this.VAO);
         this.EBO = Gdx.gl20.glGenBuffer();
         IntBuffer ind = BufferUtils.newIntBuffer(this.indices.length);
         ind.put(this.indices);
@@ -46,7 +48,6 @@ public class Figure implements Drawable {
 
     public void initVertices(){
         Gdx.gl30.glBindVertexArray(this.VAO);
-        this.vertVBO = Gdx.gl20.glGenBuffer();
         FloatBuffer vert = BufferUtils.newFloatBuffer(this.vertices.length);
         vert.put(this.vertices);
         vert.flip();
@@ -54,11 +55,12 @@ public class Figure implements Drawable {
         Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.vertices.length, vert, GL_STATIC_DRAW);
         Gdx.gl20.glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         Gdx.gl20.glEnableVertexAttribArray(0);
+        Gdx.gl30.glBindVertexArray(0);
+        vert.clear();
     }
 
     public void initColors() {
         Gdx.gl30.glBindVertexArray(this.VAO);
-        this.colVBO = Gdx.gl.glGenBuffer();
         FloatBuffer col = BufferUtils.newFloatBuffer(this.colors.length);
         col.put(this.colors);
         col.flip();
@@ -66,6 +68,8 @@ public class Figure implements Drawable {
         Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.colors.length, col, GL_STATIC_DRAW);
         Gdx.gl20.glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
         Gdx.gl20. glEnableVertexAttribArray(1);
+        Gdx.gl30.glBindVertexArray(0);
+        col.clear();
     }
 
     public void draw() {

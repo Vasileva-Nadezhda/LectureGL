@@ -6,14 +6,15 @@ import com.badlogic.gdx.Input;
 public class Button implements Drawable{
     float maxX = -10.0f; float maxY = -10.0f;
     float minX=10.0f; float minY = 10.0f;
-    float textX, textY;
+    int textX, textY;
+    boolean wasSelected = false;
     Figure body;
     Texture icon;
     Font font;
     String name;
     Runnable action;
 
-    public Button(Figure body, Texture icon, Font font, String name, float textX, float textY, Runnable action){
+    public Button(Figure body, Texture icon, Font font, String name, int textX, int textY, Runnable action){
         this.body = body;
         if (icon!=null)
         this.icon = icon;
@@ -44,19 +45,26 @@ public class Button implements Drawable{
     }
 
     public void processInput() {
-        if ((Gdx.input.getX())>setX(this.minX)
-                && (Gdx.input.getX())<setX(this.maxX)
-                && (Gdx.input.getY())<Gdx.graphics.getHeight() - setY(this.minY)
-                && (Gdx.input.getY())>Gdx.graphics.getHeight() - setY(this.maxY)){
-            for(int i=4; i<this.body.colors.length; i+=4)
-            this.body.colors[i] = 0.0f;
-            this.body.initColors();
+        if ((Gdx.input.getX())> Drawable.setFloatX(this.minX)
+                && (Gdx.input.getX())<Drawable.setFloatX(this.maxX)
+                && (Gdx.input.getY())<Gdx.graphics.getHeight() - Drawable.setFloatY(this.minY)
+                && (Gdx.input.getY())>Gdx.graphics.getHeight() - Drawable.setFloatY(this.maxY)){
+            if (!this.wasSelected) {
+                for (int i = 4; i < this.body.colors.length; i += 4)
+                    this.body.colors[i] = 1.0f;
+                this.body.initColors();
+                this.wasSelected = true;
+            }
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 this.action.run();
             }
-        } else  {for(int i=4; i<this.body.colors.length; i+=4)
-            this.body.colors[i] = 1.0f;
-        this.body.initColors();}
+        }
+        else if(this.wasSelected)
+        {   for(int i=4; i<this.body.colors.length; i+=4)
+            this.body.colors[i] = 0.0f;
+            this.body.initColors();
+            this.wasSelected=false;
+        }
     }
 
     public void dispose(){
