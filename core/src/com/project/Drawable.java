@@ -17,19 +17,19 @@ public interface Drawable {
     void dispose();
 
     static float setIntX(int x) {
-        return (float)((((double)x)/((screenSize.getWidth() / 2)))-1);
+        return (float)((x*screenSize.getWidth()/Gdx.graphics.getWidth())/((screenSize.getWidth() / 2)))-1;
     }
 
     static float setIntY(int y) {
-        return ((float)(y)/(float)(Gdx.graphics.getHeight() / 2))-1;
+        return ((float)(y*screenSize.getHeight()/Gdx.graphics.getHeight())/(float)(screenSize.getHeight() / 2))-0.99f;
     }
 
     static int setFloatX(float x) {
-        return (int)((x+1)*(Gdx.graphics.getWidth() / 2));
+        return (int)(((x+1)*(screenSize.getWidth() / 2))*Gdx.graphics.getWidth()/screenSize.getWidth());
     }
 
     static int setFloatY(float y) {
-        return (int)((y+1)*(Gdx.graphics.getHeight() / 2));
+        return (int)(((y+1)*(screenSize.getHeight() / 2))*Gdx.graphics.getHeight()/screenSize.getHeight());
     }
 
 }

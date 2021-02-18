@@ -56,7 +56,6 @@ public class Figure implements Drawable {
         Gdx.gl20.glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         Gdx.gl20.glEnableVertexAttribArray(0);
         Gdx.gl30.glBindVertexArray(0);
-        vert.clear();
     }
 
     public void initColors() {
@@ -69,7 +68,6 @@ public class Figure implements Drawable {
         Gdx.gl20.glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
         Gdx.gl20. glEnableVertexAttribArray(1);
         Gdx.gl30.glBindVertexArray(0);
-        col.clear();
     }
 
     public void draw() {

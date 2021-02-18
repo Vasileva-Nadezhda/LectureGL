@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 public class Button implements Drawable{
-    float maxX = -10.0f; float maxY = -10.0f;
-    float minX=10.0f; float minY = 10.0f;
+    float maxX, maxY;
+    float minX, minY;
     int textX, textY;
     boolean wasSelected = false;
     Figure body;
@@ -26,6 +26,10 @@ public class Button implements Drawable{
     }
 
     public void init(){
+        this.maxX = -10.0f;
+        this.maxY = -10.0f;
+        this.minX = 10.0f;
+        this.minY = 10.0f;
         for(int i=0; i<this.body.vertices.length; i+=3){
             if(this.maxX<this.body.vertices[i]) this.maxX = this.body.vertices[i];
             if(this.minX>this.body.vertices[i]) this.minX = this.body.vertices[i];
@@ -50,7 +54,7 @@ public class Button implements Drawable{
                 && (Gdx.input.getY())<Gdx.graphics.getHeight() - Drawable.setFloatY(this.minY)
                 && (Gdx.input.getY())>Gdx.graphics.getHeight() - Drawable.setFloatY(this.maxY)){
             if (!this.wasSelected) {
-                for (int i = 4; i < this.body.colors.length; i += 4)
+                for(int i=4; i<this.body.colors.length; i+=4)
                     this.body.colors[i] = 1.0f;
                 this.body.initColors();
                 this.wasSelected = true;
@@ -60,8 +64,9 @@ public class Button implements Drawable{
             }
         }
         else if(this.wasSelected)
-        {   for(int i=4; i<this.body.colors.length; i+=4)
-            this.body.colors[i] = 0.0f;
+        {
+            for(int i=4; i<this.body.colors.length; i+=4)
+                this.body.colors[i] = 0.0f;
             this.body.initColors();
             this.wasSelected=false;
         }

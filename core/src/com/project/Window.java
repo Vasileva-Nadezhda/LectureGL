@@ -31,10 +31,10 @@ public class Window extends ApplicationAdapter{
 		font = new Font(Font.ITALIC, 24, Color.LIME);
 		font.init();
 		figure = new Figure(new float[]{
-				-0.6f, 1.0f, 0.0f,
-				-0.6f,  0.8f, 0.0f,
-				-1.0f,  0.8f, 0.0f,
-				-1.0f,  1.0f, 0.0f
+				Drawable.setIntX(200), Drawable.setIntY(Gdx.graphics.getHeight()), 0.0f,
+				Drawable.setIntX(200),  Drawable.setIntY(Gdx.graphics.getHeight()-50), 0.0f,
+				Drawable.setIntX(0),  Drawable.setIntY(Gdx.graphics.getHeight()-50), 0.0f,
+				Drawable.setIntX(0),  Drawable.setIntY(Gdx.graphics.getHeight()), 0.0f
 		}, new float[]{
 			1.0f, 0.0f, 0.0f, 1.0f,
 			0.0f, 1.0f, 0.0f, 1.0f,
@@ -163,6 +163,22 @@ public class Window extends ApplicationAdapter{
 			dispose();
 			System.exit(0);
 		}
+	}
+
+	@Override
+    public void resize(int width, int height) {
+		System.out.println(Gdx.graphics.getWidth());
+		this.button1.body.vertices = new float[]{
+				Drawable.setIntX(200), Drawable.setIntY(Gdx.graphics.getHeight()), 0.0f,
+				Drawable.setIntX(200),  Drawable.setIntY(Gdx.graphics.getHeight()-50), 0.0f,
+				Drawable.setIntX(0),  Drawable.setIntY(Gdx.graphics.getHeight()-50), 0.0f,
+				Drawable.setIntX(0),  Drawable.setIntY(Gdx.graphics.getHeight()), 0.0f
+		};
+		this.button1.body.initVertices();
+		this.button1.init();
+		System.out.println(this.button1.maxX);
+		System.out.println(Drawable.setFloatX(this.button1.maxX));
+		super.resize(width, height);
 	}
 
 	@Override
