@@ -137,7 +137,7 @@ public class Window extends ApplicationAdapter{
 		buttonFont.init();
 
 		texture.init("core/assets/tex1.png");
-		 button1 = new Button(figure, texture, buttonFont, "button1", 80, 460, ()->this.text = "Здесь еще вроде пишет. sssvsdf sdgsdgsdg sdgsdgsgewg wegwgwgweg wgewg.");
+		 button1 = new Button(figure, texture, buttonFont, "button1", 50, Gdx.graphics.getHeight()-25, ()->this.text = "Здесь еще вроде пишет. sssvsdf sdgsdgsdg sdgsdgsgewg wegwgwgweg wgewg.");
 		 button1.init();
 		button2 = new Button(figure1, null, buttonFont, "button2", 80, 410, ()->this.text = button2.name);
 		button2.init();
@@ -167,7 +167,6 @@ public class Window extends ApplicationAdapter{
 
 	@Override
     public void resize(int width, int height) {
-		System.out.println(Gdx.graphics.getWidth());
 		this.button1.body.vertices = new float[]{
 				Drawable.setIntX(200), Drawable.setIntY(Gdx.graphics.getHeight()), 0.0f,
 				Drawable.setIntX(200),  Drawable.setIntY(Gdx.graphics.getHeight()-50), 0.0f,
@@ -176,9 +175,7 @@ public class Window extends ApplicationAdapter{
 		};
 		this.button1.body.initVertices();
 		this.button1.init();
-		System.out.println(this.button1.maxX);
-		System.out.println(Drawable.setFloatX(this.button1.maxX));
-		super.resize(width, height);
+		this.button1.textY=Gdx.graphics.getHeight()-25;
 	}
 
 	@Override
