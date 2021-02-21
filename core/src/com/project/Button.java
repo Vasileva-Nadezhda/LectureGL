@@ -25,7 +25,7 @@ public class Button implements Drawable{
         this.action = action;
     }
 
-    public void init(){
+    public void initPoses(){
         this.maxX = -10.0f;
         this.maxY = -10.0f;
         this.minX = 10.0f;
@@ -39,10 +39,18 @@ public class Button implements Drawable{
             if(this.minY>this.body.vertices[i]) this.minY = this.body.vertices[i];
         }
     }
+    public void init(){
+        this.initPoses();
+        this.body.init();
+        if(this.icon != null){
+            this.icon.init(this.icon.location);
+        }
+    }
 
+    @Override
     public void draw(){
         this.body.draw();
-        if (icon!=null)
+        if (this.icon!=null)
         this.icon.draw();
         this.font.draw(this.textX, this.textY, this.name);
         processInput();
@@ -54,8 +62,12 @@ public class Button implements Drawable{
                 && (Gdx.input.getY())<Gdx.graphics.getHeight() - Drawable.setFloatY(this.minY)
                 && (Gdx.input.getY())>Gdx.graphics.getHeight() - Drawable.setFloatY(this.maxY)){
             if (!this.wasSelected) {
-                for(int i=4; i<this.body.colors.length; i+=4)
-                    this.body.colors[i] = 1.0f;
+                this.body.colors = new float[]{
+                        InterfaceColors.SELECTED_INTERFACE_BUTTON.r, InterfaceColors.SELECTED_INTERFACE_BUTTON.g, InterfaceColors.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                        InterfaceColors.SELECTED_INTERFACE_BUTTON.r, InterfaceColors.SELECTED_INTERFACE_BUTTON.g, InterfaceColors.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                        InterfaceColors.SELECTED_INTERFACE_BUTTON.r, InterfaceColors.SELECTED_INTERFACE_BUTTON.g, InterfaceColors.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                        InterfaceColors.SELECTED_INTERFACE_BUTTON.r, InterfaceColors.SELECTED_INTERFACE_BUTTON.g, InterfaceColors.SELECTED_INTERFACE_BUTTON.b, 1.0f
+                };
                 this.body.initColors();
                 this.wasSelected = true;
             }
@@ -65,8 +77,12 @@ public class Button implements Drawable{
         }
         else if(this.wasSelected)
         {
-            for(int i=4; i<this.body.colors.length; i+=4)
-                this.body.colors[i] = 0.0f;
+            this.body.colors = new float[]{
+                    InterfaceColors.INTERFACE_BUTTON.r, InterfaceColors.INTERFACE_BUTTON.g, InterfaceColors.INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceColors.INTERFACE_BUTTON.r, InterfaceColors.INTERFACE_BUTTON.g, InterfaceColors.INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceColors.INTERFACE_BUTTON.r, InterfaceColors.INTERFACE_BUTTON.g, InterfaceColors.INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceColors.INTERFACE_BUTTON.r, InterfaceColors.INTERFACE_BUTTON.g, InterfaceColors.INTERFACE_BUTTON.b, 1.0f
+            };
             this.body.initColors();
             this.wasSelected=false;
         }

@@ -70,6 +70,7 @@ public class Figure implements Drawable {
         Gdx.gl30.glBindVertexArray(0);
     }
 
+    @Override
     public void draw() {
        FigureShader.bind();
        Gdx.gl30.glBindVertexArray(this.VAO);

@@ -17,6 +17,7 @@ public class Texture extends Figure implements Drawable {
     static Shader TextureShader = new Shader("core/assets/TextureVShader.vert",
             "core/assets//TextureFShader.frag");
 
+    String location;
     int textureID;
     int posVBO;
     float[] positions;
@@ -101,6 +102,7 @@ public class Texture extends Figure implements Drawable {
     public void dispose() {
         super.dispose();
         Gdx.gl.glDeleteTexture(this.textureID);
+        Gdx.gl.glDeleteBuffer(this.posVBO);
     }
 
 }
