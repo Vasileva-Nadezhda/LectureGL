@@ -90,8 +90,8 @@ public class Button implements Drawable{
 
     public void dispose(){
         this.body.dispose();
+        if (this.icon != null)
         this.icon.dispose();
-        this.font.dispose();
     }
 
 }

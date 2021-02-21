@@ -31,12 +31,12 @@ public class Interface implements Drawable{
     }
 
     public void dispose(){
+        buttonFont.dispose();
         button1.dispose();
         button2.dispose();
         button3.dispose();
         button4.dispose();
         button5.dispose();
-        buttonFont.dispose();
     }
 
     private void moveVertices(float[] vertices, int maxY, int buttonHeight) {
