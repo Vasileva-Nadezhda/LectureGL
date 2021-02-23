@@ -33,8 +33,7 @@ public class Window extends ApplicationAdapter{
 		an_interface.draw();
 		font.drawWithWrap(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, text);
 		if (Gdx.input.isKeyPressed(ESCAPE)){
-			dispose();
-			System.exit(0);
+			Gdx.app.exit();
 		}
 	}
 

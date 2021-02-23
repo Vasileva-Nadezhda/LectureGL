@@ -21,7 +21,7 @@ public interface Drawable {
     }
 
     static float setIntY(int y) {
-        return ((float)(y*screenSize.getHeight()/Gdx.graphics.getHeight())/(float)(screenSize.getHeight() / 2))-0.99f;
+        return (float)((y*screenSize.getHeight()/Gdx.graphics.getHeight())/(screenSize.getHeight() / 2))-1;
     }
 
     static int setFloatX(float x) {

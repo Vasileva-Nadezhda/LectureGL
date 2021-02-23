@@ -59,33 +59,33 @@ public class Interface implements Drawable{
                 -1.0f,                          Drawable.setIntY(maxY-buttonHeight),                     0.0f,
                 -1.0f,                          Drawable.setIntY(maxY),                                  0.0f
         };
-        button1.body.vertices = vertices.clone();
+        button1.body.vertices = vertices;
         button1.body.initVertices();
         button1.textY = maxY-nameY;
+        button1.initPoses();
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
-        button2.body.vertices = vertices.clone();
+        button2.body.vertices = vertices;
         button2.body.initVertices();
         button2.textY = maxY-nameY;
+        button2.initPoses();
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
-        button3.body.vertices = vertices.clone();
+        button3.body.vertices = vertices;
         button3.body.initVertices();
         button3.textY = maxY-nameY;
+        button3.initPoses();
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
-        button4.body.vertices = vertices.clone();
+        button4.body.vertices = vertices;
         button4.body.initVertices();
         button4.textY = maxY-nameY;
+        button4.initPoses();
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
-        button5.body.vertices = vertices.clone();
+        button5.body.vertices = vertices;
         button5.body.initVertices();
         button5.textY = maxY-nameY;
-        button1.initPoses();
-        button2.initPoses();
-        button3.initPoses();
-        button4.initPoses();
         button5.initPoses();
     }
 
