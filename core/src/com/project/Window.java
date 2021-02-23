@@ -40,6 +40,9 @@ public class Window extends ApplicationAdapter{
 
 	@Override
     public void resize(int width, int height) {
+		if((width < 320) || (height < 240)) {
+			Gdx.graphics.setWindowedMode(640, 480);
+		}
 		an_interface.resize();
 	}
 
