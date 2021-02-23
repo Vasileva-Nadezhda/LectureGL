@@ -1,5 +1,6 @@
 package com.project.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.project.Window;
@@ -15,7 +16,9 @@ public class DesktopLauncher {
 		config.useGL30 = true;
 		config.pauseWhenBackground = true;
 		config.backgroundFPS = -1;
-		config.title="KakIHateYou";
+		config.title="Educational Platform";
+		config.addIcon("core/assets/icon32.jpg", Files.FileType.Local);
+		config.addIcon("core/assets/icon128.jpg", Files.FileType.Local);
 		window = new Window();
 	}
 
