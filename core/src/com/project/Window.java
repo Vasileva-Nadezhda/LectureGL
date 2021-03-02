@@ -9,29 +9,44 @@ import static com.badlogic.gdx.Input.Keys.ESCAPE;
 
 public class Window extends ApplicationAdapter{
 
+    static Workspace workspace;
 	static Font font;
-	static String text="Должно разделяться примерно вот тут.";
+	static int oldHeight;
 	static Interface an_interface;
 
 	@Override
 	public void create () {
-		InterfaceColors.changeColors(InterfaceColors.Colors.SKY_BLUE);
+		InterfaceParameters.changeColors(InterfaceParameters.Colors.SKY_BLUE);
 		an_interface = new Interface();
 		an_interface.init();
+		oldHeight = Gdx.graphics.getHeight();
+		workspace = new Workspace(2, 20);
 		Texture.TextureShader.loadFromFile();
 		Figure.FigureShader.loadFromFile();
-		font = new Font(Font.ITALIC, 24, Color.LIME);
+		font = new Font(Font.REGULAR, 14, Color.BLACK);
 		font.init();
-		text = "Здесь еще вроде пишет. sssvsdf sdgsdgsdg sdgsdgsgewg wegwgwgweg wgewg.";
-		Gdx.input.setInputProcessor(new InputAdapter());
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight(), "ололлоло 1. jjjjjjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjjj jjjjjjjj jjjjjjjjjjjjjjj jjjjjjjjjjj jjjjjjj jjjjjjjjj jjjjjjj"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-workspace.line_spacing-InterfaceParameters.MAIN_FONT.size, "олололо 2"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-2*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 3"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-3*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 4"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-4*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 5"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-5*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 666666666  666  66666666666666 66666666666 666  666  6666"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-6*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 7"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-8*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 8"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-10*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 9"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-11*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 100000000 0000  00001 0"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-12*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 11"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-15*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 12"));
+		workspace.addItem(new SimpleText(115, Gdx.graphics.getHeight()-20*(workspace.line_spacing+InterfaceParameters.MAIN_FONT.size), "ололололололо 13"));
+		workspace.init();
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0.97f, 0.97f, 0.97f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		an_interface.draw();
-		font.drawWithWrap(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, text);
+		workspace.draw();
+        an_interface.draw();
 		if (Gdx.input.isKeyPressed(ESCAPE)){
 			Gdx.app.exit();
 		}
@@ -42,7 +57,9 @@ public class Window extends ApplicationAdapter{
 		if((width < 320) || (height < 240)) {
 			Gdx.graphics.setWindowedMode(640, 480);
 		}
+		workspace.resize();
 		an_interface.resize();
+		oldHeight = Gdx.graphics.getHeight();
 	}
 
 	@Override

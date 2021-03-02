@@ -30,18 +30,6 @@ public class Font implements Drawable {
         this.color = color;
     }
 
-    public Font(int size, Color color) {
-        this(REGULAR, size, color);
-    }
-
-    public Font(String location, int size) {
-        this(location, size, Color.WHITE);
-    }
-
-    public Font() {
-        this(REGULAR, 14, Color.WHITE);
-    }
-
     public void init() {
         this.batch = new SpriteBatch();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(new FileHandle(this.location));
@@ -57,24 +45,22 @@ public class Font implements Drawable {
     public void draw(int x, int y, String text) {
         this.batch.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         this.batch.begin();
-        this.font.draw(this.batch, text, x, y + this.size/2);
+        this.font.draw(this.batch, text, x, y);
         this.batch.end();
     }
 
-    public void drawWithWrap(int x, int y, String text) {
+    public void drawInWorkspace(int x, String text) {
         this.layout.setText(this.font, text);
-        if(text.length()>2) {
             if(x + layout.width>Gdx.graphics.getWidth()) {
                 for (int i = (int)((Gdx.graphics.getWidth()-x)/(layout.width/text.length())); i>0; i--) {
                     if (text.charAt(i)==' ') {
-                        this.draw(x, y, text.substring(0,i));
-                        text = text.substring(i+1);
-                        this.drawWithWrap(x, y-5-this.size, text);
+                        this.draw(x, Window.workspace.nowY+Window.workspace.deltaY, text.substring(0,i));
+                        Window.workspace.nowY-=(Window.workspace.line_spacing+this.size);
+                        this.drawInWorkspace(x, text.substring(i+1));
                         break;
                     }
                 }
-            } else this.draw(x, y, text);
-        }
+            } else this.draw(x, Window.workspace.nowY+Window.workspace.deltaY, text);
     }
 
     public void dispose() {
