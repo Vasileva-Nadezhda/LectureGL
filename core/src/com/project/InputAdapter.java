@@ -38,12 +38,12 @@ public class InputAdapter implements InputProcessor {
 
     @Override
     public boolean scrolled (float amountX, float amountY) {
-        int scroll = (int)(scrollSpeed*(-amountY));
-        if (amountY>0 && !(Window.workspace.strings.get(0).y+Window.workspace.deltaY+scroll<Gdx.graphics.getHeight())){
+        int scroll = (int)(scrollSpeed*(amountY));
+        if (amountY<0 && !(Window.workspace.strings.get(0).y+Window.workspace.deltaY+scroll<Gdx.graphics.getHeight())){
             Window.workspace.deltaY += scroll;
             return false;
         }
-        if (amountY<0 && !(Window.workspace.strings.get(Window.workspace.strings.size()-1).y+Window.workspace.deltaY+scroll>0)) {
+        if (amountY>0 && !(Window.workspace.strings.get(Window.workspace.strings.size()-1).y-InterfaceParameters.MAIN_FONT.size+Window.workspace.deltaY+scroll>0)) {
             Window.workspace.deltaY += scroll;
             return false;
         }

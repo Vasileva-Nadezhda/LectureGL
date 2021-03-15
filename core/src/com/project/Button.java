@@ -6,12 +6,11 @@ import com.badlogic.gdx.Input;
 public class Button implements Drawable{
     float maxX, maxY;
     float minX, minY;
-    int textX, textY;
     boolean wasSelected = false;
     Figure body;
     Texture icon;
     Font font;
-    String name;
+    SimpleText name;
     Runnable action;
 
     public Button(Figure body, Texture icon, Font font, String name, int textX, int textY, Runnable action){
@@ -19,9 +18,7 @@ public class Button implements Drawable{
         if (icon!=null)
         this.icon = icon;
         this.font = font;
-        this.name = name;
-        this.textX = textX;
-        this.textY = textY;
+        this.name = new SimpleText(textX, textY, name);
         this.action = action;
     }
 
@@ -52,7 +49,7 @@ public class Button implements Drawable{
         this.body.draw();
         if (this.icon!=null)
         this.icon.draw();
-        this.font.draw(this.textX, this.textY, this.name);
+        this.name.draw(this.font);
         processInput();
     }
 
@@ -63,10 +60,10 @@ public class Button implements Drawable{
                 && (Gdx.input.getY())>Gdx.graphics.getHeight() - Drawable.setFloatY(this.maxY)){
             if (!this.wasSelected) {
                 this.body.colors = new float[]{
-                        InterfaceColors.SELECTED_INTERFACE_BUTTON.r, InterfaceColors.SELECTED_INTERFACE_BUTTON.g, InterfaceColors.SELECTED_INTERFACE_BUTTON.b, 1.0f,
-                        InterfaceColors.SELECTED_INTERFACE_BUTTON.r, InterfaceColors.SELECTED_INTERFACE_BUTTON.g, InterfaceColors.SELECTED_INTERFACE_BUTTON.b, 1.0f,
-                        InterfaceColors.SELECTED_INTERFACE_BUTTON.r, InterfaceColors.SELECTED_INTERFACE_BUTTON.g, InterfaceColors.SELECTED_INTERFACE_BUTTON.b, 1.0f,
-                        InterfaceColors.SELECTED_INTERFACE_BUTTON.r, InterfaceColors.SELECTED_INTERFACE_BUTTON.g, InterfaceColors.SELECTED_INTERFACE_BUTTON.b, 1.0f
+                        InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                        InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                        InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                        InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f
                 };
                 this.body.initColors();
                 this.wasSelected = true;
@@ -78,10 +75,10 @@ public class Button implements Drawable{
         else if(this.wasSelected)
         {
             this.body.colors = new float[]{
-                    InterfaceColors.INTERFACE_BUTTON.r, InterfaceColors.INTERFACE_BUTTON.g, InterfaceColors.INTERFACE_BUTTON.b, 1.0f,
-                    InterfaceColors.INTERFACE_BUTTON.r, InterfaceColors.INTERFACE_BUTTON.g, InterfaceColors.INTERFACE_BUTTON.b, 1.0f,
-                    InterfaceColors.INTERFACE_BUTTON.r, InterfaceColors.INTERFACE_BUTTON.g, InterfaceColors.INTERFACE_BUTTON.b, 1.0f,
-                    InterfaceColors.INTERFACE_BUTTON.r, InterfaceColors.INTERFACE_BUTTON.g, InterfaceColors.INTERFACE_BUTTON.b, 1.0f
+                    InterfaceParameters.INTERFACE_BUTTON.r, InterfaceParameters.INTERFACE_BUTTON.g, InterfaceParameters.INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceParameters.INTERFACE_BUTTON.r, InterfaceParameters.INTERFACE_BUTTON.g, InterfaceParameters.INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceParameters.INTERFACE_BUTTON.r, InterfaceParameters.INTERFACE_BUTTON.g, InterfaceParameters.INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceParameters.INTERFACE_BUTTON.r, InterfaceParameters.INTERFACE_BUTTON.g, InterfaceParameters.INTERFACE_BUTTON.b, 1.0f
             };
             this.body.initColors();
             this.wasSelected=false;

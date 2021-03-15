@@ -32,4 +32,8 @@ public interface Drawable {
         return (int)(((y+1)*(screenSize.getHeight() / 2))*Gdx.graphics.getHeight()/screenSize.getHeight());
     }
 
+    static int resizeY(int y){
+        return y*Gdx.graphics.getHeight()/Window.oldHeight;
+    }
+
 }

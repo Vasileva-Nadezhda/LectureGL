@@ -12,6 +12,7 @@ public class DesktopLauncher {
 
 	static void start() {
 		config = new LwjglApplicationConfiguration();
+		config.width = 680;
 		config.allowSoftwareMode=true;
 		config.useGL30 = true;
 		config.pauseWhenBackground = true;
