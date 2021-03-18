@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class WorkspaceTextLoader {
 
+    private
+
     public void textLoad(String location, int startX, int startY, Workspace workspace){
         String str = "";
         StringBuilder string = new StringBuilder();
