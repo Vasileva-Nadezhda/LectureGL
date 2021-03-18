@@ -4,21 +4,18 @@ public class SimpleText{
 
     int x;
     int y;
+    Font font;
     String text;
 
-    enum FontTypes {
-        MAIN,
-        HEADER
-    }
-
-    public SimpleText(int x, int y, String text){
+    public SimpleText(int x, int y, Font font, String text){
         this.x = x;
         this.y = y;
+        this.font = font;
         this.text = text;
     }
 
-    public void draw(Font font){
-        font.draw(this.x, this.y, this.text);
+    public void draw(){
+        this.font.draw(this.x, this.y, this.text);
     }
 
     public void draw(Font font, int y){

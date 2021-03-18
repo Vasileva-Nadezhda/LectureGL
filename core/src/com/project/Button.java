@@ -18,7 +18,7 @@ public class Button implements Drawable{
         if (icon!=null)
         this.icon = icon;
         this.font = font;
-        this.name = new SimpleText(textX, textY, name);
+        this.name = new SimpleText(textX, textY, this.font, name);
         this.action = action;
     }
 
@@ -49,7 +49,7 @@ public class Button implements Drawable{
         this.body.draw();
         if (this.icon!=null)
         this.icon.draw();
-        this.name.draw(this.font);
+        this.name.draw();
         processInput();
     }
 

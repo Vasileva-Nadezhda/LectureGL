@@ -50,7 +50,7 @@ public class Workspace implements Drawable{
 //            this.nowY = this.strings.get(i).y - (this.strings.get(i).y - this.nowY);
 //        }
         for(SimpleText string : this.strings){
-            string.draw(InterfaceParameters.MAIN_FONT);
+            string.draw();
         }
     }
 
