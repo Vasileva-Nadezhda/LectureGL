@@ -2,7 +2,6 @@ package com.project;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 
 import static com.badlogic.gdx.Input.Keys.ESCAPE;
@@ -10,9 +9,8 @@ import static com.badlogic.gdx.Input.Keys.ESCAPE;
 public class Window extends ApplicationAdapter{
 
     static Workspace workspace;
-	static Font font;
 	static int oldHeight;
-	static WorkspaceTextLoader loader;
+	static WorkspaceLoader loader;
 	static Interface an_interface;
 
 	@Override
@@ -24,9 +22,7 @@ public class Window extends ApplicationAdapter{
 		workspace = new Workspace(2, 20);
 		Texture.TextureShader.loadFromFile();
 		Figure.FigureShader.loadFromFile();
-		font = new Font(Font.REGULAR, 14, Color.BLACK);
-		font.init();
-		loader = new WorkspaceTextLoader();
+		loader = new WorkspaceLoader();
 		loader.textLoad("core/assets/text0.theory", 200, Gdx.graphics.getHeight()/2, workspace);
 	}
 

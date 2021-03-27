@@ -41,14 +41,6 @@ public class Workspace implements Drawable{
     }
 
     public void draw(){
-//        this.nowY = this.strings.get(0).y;
-//        for (int i=0; i<this.strings.size()-1; ++i){
-//            if (this.nowY+this.deltaY-InterfaceParameters.MAIN_FONT.size>-10 && this.nowY+this.deltaY<Gdx.graphics.getHeight()+10) {
-//                this.strings.get(i).drawInWorkspace(InterfaceParameters.MAIN_FONT);
-//                System.out.println(this.strings.get(i).y);
-//            }
-//            this.nowY = this.strings.get(i).y - (this.strings.get(i).y - this.nowY);
-//        }
         for(SimpleText string : this.strings){
             string.draw();
         }
