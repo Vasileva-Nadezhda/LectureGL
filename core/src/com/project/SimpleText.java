@@ -18,8 +18,8 @@ public class SimpleText{
         this.font.draw(this.x, this.y, this.text);
     }
 
-    public void draw(Font font, int y){
-        font.draw(this.x, this.y, this.text);
+    public void draw(int y){
+        font.draw(this.x, y, this.text);
     }
 
     public void drawInWorkspace(Font font){

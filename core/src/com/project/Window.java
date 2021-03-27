@@ -10,7 +10,6 @@ public class Window extends ApplicationAdapter{
 
     static Workspace workspace;
 	static int oldHeight;
-	static WorkspaceLoader loader;
 	static Interface an_interface;
 
 	@Override
@@ -19,11 +18,10 @@ public class Window extends ApplicationAdapter{
 		an_interface = new Interface();
 		an_interface.init();
 		oldHeight = Gdx.graphics.getHeight();
-		workspace = new Workspace(2, 20);
+		workspace = new Workspace(2, 20, "core/assets/text0.theory");
+		workspace.init();
 		Texture.TextureShader.loadFromFile();
 		Figure.FigureShader.loadFromFile();
-		loader = new WorkspaceLoader();
-		loader.textLoad("core/assets/text0.theory", 200, Gdx.graphics.getHeight()/2, workspace);
 	}
 
 	@Override
@@ -43,8 +41,7 @@ public class Window extends ApplicationAdapter{
 			Gdx.graphics.setWindowedMode(640, 480);
 		}
 		an_interface.resize();
-		workspace.strings = null;
-		loader.textLoad("core/assets/text0.theory", 200, Gdx.graphics.getHeight()/2, workspace);
+		workspace.resize();
 		oldHeight = Gdx.graphics.getHeight();
 	}
 

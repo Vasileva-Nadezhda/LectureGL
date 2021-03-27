@@ -2,10 +2,16 @@ package com.project;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class InputAdapter implements InputProcessor {
 
-    static int scrollSpeed = 15;
+    Workspace workspace;
+    static int scrollSpeed = 20;
+
+    public InputAdapter (Workspace workspace) {
+        this.workspace = workspace;
+    }
 
     public boolean keyDown (int keycode) {
         return false;
@@ -38,14 +44,17 @@ public class InputAdapter implements InputProcessor {
 
     @Override
     public boolean scrolled (float amountX, float amountY) {
-        int scroll = (int)(scrollSpeed*(amountY));
-        if (amountY<0 && !(Window.workspace.strings.get(0).y+Window.workspace.deltaY+scroll<Gdx.graphics.getHeight())){
-            Window.workspace.deltaY += scroll;
-            return false;
+        int scroll = (int)(-amountY)*scrollSpeed;
+        if ((amountY > 0) && ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight())) {
+            this.workspace.deltaY += scroll;
         }
-        if (amountY>0 && !(Window.workspace.strings.get(Window.workspace.strings.size()-1).y-InterfaceParameters.MAIN_FONT.size+Window.workspace.deltaY+scroll>0)) {
-            Window.workspace.deltaY += scroll;
-            return false;
+        else if (amountY < 0) {
+            GlyphLayout layout = new GlyphLayout();
+            SimpleText string = this.workspace.strings.get(this.workspace.strings.size()-1);
+            layout.setText(string.font.font, string.text);
+            if ((string.y + this.workspace.deltaY - layout.height) <= 0){
+                this.workspace.deltaY += scroll;
+            }
         }
         return false;
     }

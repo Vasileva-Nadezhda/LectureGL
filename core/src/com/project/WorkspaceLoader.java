@@ -23,7 +23,7 @@ public class WorkspaceLoader {
             font = InterfaceParameters.HEADER_FONT;
         }
         line = line.replaceFirst("\\{\\{"+tag.substring(2), "        ");
-        this.layout = new GlyphLayout(font.font, line);
+        this.layout = new GlyphLayout();
         font.layout.setText(font.font, "W");
         while (scanner.hasNextLine() || line.endsWith(tag + "\n")) {
             this.layout.setText(font.font, line);

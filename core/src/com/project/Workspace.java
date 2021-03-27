@@ -1,6 +1,8 @@
 package com.project;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import java.util.ArrayList;
 
@@ -8,17 +10,21 @@ public class Workspace implements Drawable{
 
     ArrayList<SimpleText> strings;
     ArrayList<Picture> pictures;
+    String contentLocation;
+    WorkspaceLoader loader;
+    GlyphLayout layout;
     int minX, minY;
     int width, height;
     int nowY;
     int deltaY = 0;
     int line_spacing = 5;
 
-    public Workspace(int minX, int minY){
+    public Workspace(int minX, int minY, String contentLocation){
         this.minX = minX;
         this.minY = minY;
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth() - minX;
+        this.contentLocation = contentLocation;
     }
 
     public void addItem(Object item){
@@ -37,22 +43,27 @@ public class Workspace implements Drawable{
     }
 
     public void init(){
-        Gdx.input.setInputProcessor(new InputAdapter());
+        Gdx.input.setInputProcessor(new InputAdapter(this));
+        loader = new WorkspaceLoader();
+        loader.textLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
     }
 
     public void draw(){
+        this.layout = new GlyphLayout();
         for(SimpleText string : this.strings){
-            string.draw();
+            this.layout.reset();
+            this.layout.setText(string.font.font, string.text);
+            if (((string.y + this.deltaY - this.layout.height) < Gdx.graphics.getHeight())
+                && (string.y + this.deltaY) > 0) {
+                string.draw(string.y+this.deltaY);
+            }
         }
     }
 
     public void resize(){
         this.deltaY = Drawable.resizeY(this.deltaY);
-        this.strings.get(0).y = Drawable.resizeY(this.strings.get(0).y);
-        for(int i=1; i<this.strings.size(); ++i) {
-            this.strings.get(i).y = Drawable.resizeY(this.strings.get(i).y);
-            this.strings.get(i).y -= (this.strings.get(i-1).y - this.strings.get(i).y)*Window.oldHeight/Gdx.graphics.getHeight();
-        }
+        this.strings = null;
+        this.loader.textLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
     }
 
     public void dispose(){
