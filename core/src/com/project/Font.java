@@ -39,7 +39,7 @@ public class Font implements Drawable {
         parameter.color = this.color;
         this.font = generator.generateFont(parameter);
         generator.dispose();
-        this.layout = new GlyphLayout(this.font, "a");
+        this.layout = new GlyphLayout(this.font, "W");
     }
 
     public void draw(int x, int y, String text) {
