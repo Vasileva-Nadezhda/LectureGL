@@ -22,7 +22,4 @@ public class SimpleText{
         font.draw(this.x, y, this.text);
     }
 
-    public void drawInWorkspace(Font font){
-        font.drawInWorkspace(this.x, this.text);
-    }
 }

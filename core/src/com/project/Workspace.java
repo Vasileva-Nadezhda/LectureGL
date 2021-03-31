@@ -1,7 +1,6 @@
 package com.project;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import java.util.ArrayList;
@@ -45,25 +44,29 @@ public class Workspace implements Drawable{
     public void init(){
         Gdx.input.setInputProcessor(new InputAdapter(this));
         loader = new WorkspaceLoader();
-        loader.textLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
+        loader.contentLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
+        this.layout = new GlyphLayout();
+        for (Picture pic : this.pictures) {
+            pic.init();
+        }
     }
 
     public void draw(){
-        this.layout = new GlyphLayout();
         for(SimpleText string : this.strings){
-            this.layout.reset();
-            this.layout.setText(string.font.font, string.text);
-            if (((string.y + this.deltaY - this.layout.height) < Gdx.graphics.getHeight())
+           this.layout.reset();
+           this.layout.setText(string.font.font, string.text);
+           if (((string.y + this.deltaY - this.layout.height) < Gdx.graphics.getHeight())
                 && (string.y + this.deltaY) > 0) {
                 string.draw(string.y+this.deltaY);
-            }
+           }
         }
+        this.pictures.get(0).draw();
     }
 
     public void resize(){
         this.deltaY = Drawable.resizeY(this.deltaY);
         this.strings = null;
-        this.loader.textLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
+        this.loader.contentLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
     }
 
     public void dispose(){

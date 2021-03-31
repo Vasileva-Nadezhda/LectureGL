@@ -11,6 +11,30 @@ public class WorkspaceLoader {
 
     Scanner scanner;
     GlyphLayout layout;
+    int nowY;
+
+    private Picture loadPicture() {
+        int x = 0, y = this.nowY, width = 0, height = 0;
+        String location = "";
+        String line = this.scanner.nextLine();
+        while (!line.contains("{{PIC}}")) {
+            if (line.startsWith("x=")) {
+                x = Integer.parseInt(line.substring(2));
+            }
+            else if (line.startsWith("width=")) {
+                width = Integer.parseInt(line.substring(6));
+            }
+            else if (line.startsWith("height=")) {
+                height = Integer.parseInt(line.substring(7));
+            }
+            else if (line.startsWith("location=")) {
+                location = line.substring(9);
+            }
+            line = this.scanner.nextLine();
+        }
+        this.nowY -= height + 10;
+        return new Picture(x, y, width, height, location);
+    }
 
     private StringBuilder processTag(String line, int startX, String tag){
         Font font = null;
@@ -81,12 +105,13 @@ public class WorkspaceLoader {
             }
         }
         this.layout.setText(font.font, string.toString());
+        this.nowY -= this.layout.height;
         return string;
     }
 
-    public void textLoad(String location, int startX, int startY, Workspace workspace){
+    public void contentLoad(String location, int startX, int startY, Workspace workspace){
         String str;
-        int nowY = startY;
+        this.nowY = startY;
         try {
             this.scanner = new Scanner(new InputStreamReader(new FileInputStream(location), StandardCharsets.UTF_8));
             while (scanner.hasNextLine()) {
@@ -99,11 +124,16 @@ public class WorkspaceLoader {
                     workspace.addItem(new SimpleText(startX, nowY, InterfaceParameters.HEADER_FONT,
                             processTag(str, startX, "{{HEADER}}").toString()));
                 }
-                nowY -= this.layout.height;
+                else if (str.contains("{{PIC}}")) {
+                    workspace.addItem(loadPicture());
+                }
             }
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            this.scanner.close();
         }
     }
 
