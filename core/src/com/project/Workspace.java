@@ -16,7 +16,7 @@ public class Workspace implements Drawable{
     int width, height;
     int deltaY = 0;
 
-    public Workspace(int minX, int minY, String contentLocation){
+    public Workspace(int minX, int minY, String contentLocation) {
         this.minX = minX;
         this.minY = minY;
         this.height = Gdx.graphics.getHeight();
@@ -24,7 +24,7 @@ public class Workspace implements Drawable{
         this.contentLocation = contentLocation;
     }
 
-    public void addItem(Object item){
+    public void addItem(Object item) {
         if(item instanceof SimpleText){
             if(this.strings==null){
                 this.strings = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Workspace implements Drawable{
         }
     }
 
-    public void init(){
+    public void init() {
         Gdx.input.setInputProcessor(new InputAdapter(this));
         loader = new WorkspaceLoader();
         loader.contentLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
@@ -49,7 +49,7 @@ public class Workspace implements Drawable{
         }
     }
 
-    public void draw(){
+    public void draw() {
         for(SimpleText string : this.strings){
            this.layout.reset();
            this.layout.setText(string.font.font, string.text);
@@ -65,7 +65,7 @@ public class Workspace implements Drawable{
         }
     }
 
-    public void resize(){
+    public void resize() {
         this.strings.clear();
         for (Picture pic : this.pictures) {
             pic.resizeParameters();
@@ -82,7 +82,7 @@ public class Workspace implements Drawable{
         }
     }
 
-    public void dispose(){
+    public void dispose() {
         for (Picture pic : this.pictures) {
             pic.dispose();
         }
