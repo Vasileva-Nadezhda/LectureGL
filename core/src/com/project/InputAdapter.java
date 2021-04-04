@@ -47,6 +47,7 @@ public class InputAdapter implements InputProcessor {
         int scroll = (int)(-amountY)*scrollSpeed;
         if ((amountY > 0) && ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight())) {
             this.workspace.deltaY += scroll;
+            this.workspace.scrollPicture();
         }
         else if (amountY < 0) {
             GlyphLayout layout = new GlyphLayout();
@@ -54,6 +55,7 @@ public class InputAdapter implements InputProcessor {
             layout.setText(string.font.font, string.text);
             if ((string.y + this.workspace.deltaY - layout.height) <= 0){
                 this.workspace.deltaY += scroll;
+                this.workspace.scrollPicture();
             }
         }
         return false;

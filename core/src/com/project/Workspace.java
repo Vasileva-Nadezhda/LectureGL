@@ -14,9 +14,7 @@ public class Workspace implements Drawable{
     GlyphLayout layout;
     int minX, minY;
     int width, height;
-    int nowY;
     int deltaY = 0;
-    int line_spacing = 5;
 
     public Workspace(int minX, int minY, String contentLocation){
         this.minX = minX;
@@ -60,16 +58,34 @@ public class Workspace implements Drawable{
                 string.draw(string.y+this.deltaY);
            }
         }
-        this.pictures.get(0).draw();
+        for (Picture pic : this.pictures) {
+            if (pic.maxY-pic.height+this.deltaY<Gdx.graphics.getHeight() && pic.maxY+this.deltaY>0){
+                pic.draw();
+            }
+        }
     }
 
     public void resize(){
-        this.deltaY = Drawable.resizeY(this.deltaY);
-        this.strings = null;
+        this.strings.clear();
+        for (Picture pic : this.pictures) {
+            pic.resizeParameters();
+        }
         this.loader.contentLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
+        for (Picture pic : this.pictures) {
+            pic.resize(this.deltaY);
+        }
+    }
+
+    public void scrollPicture() {
+        for (Picture pic : this.pictures) {
+            pic.resize(this.deltaY);
+        }
     }
 
     public void dispose(){
+        for (Picture pic : this.pictures) {
+            pic.dispose();
+        }
         this.strings.clear();
         this.pictures.clear();
     }

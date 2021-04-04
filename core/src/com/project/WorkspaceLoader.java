@@ -11,26 +11,24 @@ public class WorkspaceLoader {
 
     Scanner scanner;
     GlyphLayout layout;
+    String str;
     int nowY;
 
     private Picture loadPicture() {
         int x = 0, y = this.nowY, width = 0, height = 0;
         String location = "";
-        String line = this.scanner.nextLine();
-        while (!line.contains("{{PIC}}")) {
-            if (line.startsWith("x=")) {
-                x = Integer.parseInt(line.substring(2));
+        this.str = this.scanner.nextLine();
+        while (!this.str.contains("{{PIC}}")) {
+            if (this.str.startsWith("x=")) {
+                x = Integer.parseInt(this.str.substring(2));
+            } else if (this.str.startsWith("width=")) {
+                width = Integer.parseInt(this.str.substring(6));
+            } else if (this.str.startsWith("height=")) {
+                height = Integer.parseInt(this.str.substring(7));
+            } else if (this.str.startsWith("location=")) {
+                location = this.str.substring(9);
             }
-            else if (line.startsWith("width=")) {
-                width = Integer.parseInt(line.substring(6));
-            }
-            else if (line.startsWith("height=")) {
-                height = Integer.parseInt(line.substring(7));
-            }
-            else if (line.startsWith("location=")) {
-                location = line.substring(9);
-            }
-            line = this.scanner.nextLine();
+            this.str = this.scanner.nextLine();
         }
         this.nowY -= height + 10;
         return new Picture(x, y, width, height, location);
@@ -105,27 +103,35 @@ public class WorkspaceLoader {
             }
         }
         this.layout.setText(font.font, string.toString());
-        this.nowY -= this.layout.height;
+        this.nowY -= this.layout.height + 5;
         return string;
     }
 
     public void contentLoad(String location, int startX, int startY, Workspace workspace){
-        String str;
         this.nowY = startY;
+        int picture_count = 0;
+        boolean load_picture = workspace.pictures == null || workspace.pictures.isEmpty();
         try {
             this.scanner = new Scanner(new InputStreamReader(new FileInputStream(location), StandardCharsets.UTF_8));
             while (scanner.hasNextLine()) {
-                str = this.scanner.nextLine() + "\n";
-                if (str.contains("{{MAIN}}")) {
+                this.str = this.scanner.nextLine() + "\n";
+                if (this.str.contains("{{MAIN}}")) {
                     workspace.addItem(new SimpleText(startX, nowY, InterfaceParameters.MAIN_FONT,
-                            processTag(str, startX, "{{MAIN}}").toString()));
+                            processTag(this.str, startX, "{{MAIN}}").toString()));
                 }
-                else if (str.contains("{{HEADER}}")) {
+                else if (this.str.contains("{{HEADER}}")) {
                     workspace.addItem(new SimpleText(startX, nowY, InterfaceParameters.HEADER_FONT,
-                            processTag(str, startX, "{{HEADER}}").toString()));
+                            processTag(this.str, startX, "{{HEADER}}").toString()));
                 }
-                else if (str.contains("{{PIC}}")) {
-                    workspace.addItem(loadPicture());
+                else if (this.str.contains("{{PIC}}")) {
+                    if (load_picture) {
+                        workspace.addItem(loadPicture());
+                    }
+                    else if (workspace.pictures.size() - 1 >= picture_count){
+                        workspace.pictures.get(picture_count).maxY = this.nowY;
+                        this.nowY -= workspace.pictures.get(picture_count).height + 15;
+                        picture_count++;
+                    }
                 }
             }
         }

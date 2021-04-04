@@ -35,5 +35,7 @@ public interface Drawable {
     static int resizeY(int y){
         return y*Gdx.graphics.getHeight()/Window.oldHeight;
     }
-
+    static int resizeX(int x){
+        return x*Gdx.graphics.getWidth()/Window.oldWidth;
+    }
 }

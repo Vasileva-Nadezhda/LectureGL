@@ -10,6 +10,7 @@ public class Window extends ApplicationAdapter{
 
     static Workspace workspace;
 	static int oldHeight;
+	static int oldWidth;
 	static Interface an_interface;
 
 	@Override
@@ -18,6 +19,7 @@ public class Window extends ApplicationAdapter{
 		an_interface = new Interface();
 		an_interface.init();
 		oldHeight = Gdx.graphics.getHeight();
+		oldWidth = Gdx.graphics.getWidth();
 		workspace = new Workspace(2, 20, "core/assets/text0.theory");
 		workspace.init();
 		Texture.TextureShader.loadFromFile();
@@ -43,10 +45,12 @@ public class Window extends ApplicationAdapter{
 		an_interface.resize();
 		workspace.resize();
 		oldHeight = Gdx.graphics.getHeight();
+		oldWidth = Gdx.graphics.getWidth();
 	}
 
 	@Override
 	public void dispose () {
 		an_interface.dispose();
+		workspace.dispose();
 	}
 }

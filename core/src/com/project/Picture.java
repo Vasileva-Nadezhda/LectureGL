@@ -4,12 +4,12 @@ public class Picture{
 
     Texture picture;
     String location;
-    int minX, minY;
+    int minX, maxY;
     int width, height;
 
-    public Picture(int minX, int minY, int width, int height, String location) {
+    public Picture(int minX, int maxY, int width, int height, String location) {
         this.minX = minX;
-        this.minY = minY;
+        this.maxY = maxY;
         this.width = width;
         this.height = height;
         this.location = location;
@@ -17,10 +17,10 @@ public class Picture{
 
     public void init() {
         this.picture = new Texture(new float[] {
-                Drawable.setIntX(this.minX),            Drawable.setIntY(this.minY),             0.0f,
-                Drawable.setIntX(this.minX),            Drawable.setIntY(this.minY-this.height), 0.0f,
-                Drawable.setIntX(this.minX+this.width), Drawable.setIntY(this.minY-this.height), 0.0f,
-                Drawable.setIntX(this.minX+this.width), Drawable.setIntY(this.minY),             0.0f
+                Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY),                0.0f,
+                Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY - this.height),  0.0f,
+                Drawable.setIntX(this.minX + this.width), Drawable.setIntY(this.maxY - this.height),  0.0f,
+                Drawable.setIntX(this.minX + this.width), Drawable.setIntY(this.maxY),                0.0f
                 },
                 new float[] {
                         1.0f, 1.0f, 1.0f, 1.0f,
@@ -45,8 +45,24 @@ public class Picture{
         this.picture.draw();
     }
 
-    public void dispose() {
+    public void resizeParameters() {
+        this.height = Drawable.resizeY(this.height);
+        this.width = Drawable.resizeX(this.width);
+        this.minX = Drawable.resizeX(this.minX);
+    }
 
+    public void resize(int deltaY) {
+        this.picture.vertices = new float[] {
+                Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY + deltaY),                 0.0f,
+                Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY + deltaY - this.height),   0.0f,
+                Drawable.setIntX(this.minX + this.width), Drawable.setIntY(this.maxY + deltaY - this.height),   0.0f,
+                Drawable.setIntX(this.minX + this.width), Drawable.setIntY(this.maxY + deltaY),                 0.0f
+        };
+        this.picture.initVertices();
+    }
+
+    public void dispose() {
+        this.picture.dispose();
     }
 
 }
