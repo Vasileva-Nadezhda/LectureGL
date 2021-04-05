@@ -131,6 +131,10 @@ public class WorkspaceLoader {
                         workspace.pictures.get(picture_count).maxY = this.nowY;
                         this.nowY -= workspace.pictures.get(picture_count).height + 15;
                         picture_count++;
+                        this.str = this.scanner.nextLine();
+                        while (!this.str.contains("{{PIC}}")) {
+                            this.str = this.scanner.nextLine();
+                        }
                     }
                 }
             }
