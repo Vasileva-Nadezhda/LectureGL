@@ -68,11 +68,21 @@ public class Button implements Drawable{
                 this.body.initColors();
                 this.wasSelected = true;
             }
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !Window.an_interface.name_of_last_button.equals(this.name.text)) {
                 this.action.run();
+                Window.an_interface.name_of_last_button = this.name.text;
             }
         }
-        else if(this.wasSelected)
+        else if(Window.an_interface.name_of_last_button.equals(this.name.text)) {
+            this.body.colors = new float[]{
+                    InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f,
+                    InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f
+            };
+            this.body.initColors();
+        }
+        else if(this.wasSelected && !Window.an_interface.name_of_last_button.equals(this.name.text))
         {
             this.body.colors = new float[]{
                     InterfaceParameters.INTERFACE_BUTTON.r, InterfaceParameters.INTERFACE_BUTTON.g, InterfaceParameters.INTERFACE_BUTTON.b, 1.0f,

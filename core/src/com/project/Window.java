@@ -20,8 +20,9 @@ public class Window extends ApplicationAdapter{
 		an_interface.init();
 		oldHeight = Gdx.graphics.getHeight();
 		oldWidth = Gdx.graphics.getWidth();
-		workspace = new Workspace(2, 20, "core/assets/text0.theory");
+		workspace = new Workspace(2, 20, "core/assets/maths1.theory");
 		workspace.init();
+		an_interface.name_of_last_button = an_interface.button1.name.text;
 		Texture.TextureShader.loadFromFile();
 		Figure.FigureShader.loadFromFile();
 	}

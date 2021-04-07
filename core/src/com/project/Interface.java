@@ -11,6 +11,7 @@ public class Interface implements Drawable{
     Button button3;
     Button button4;
     Button button5;
+    String name_of_last_button = "";
     Font buttonFont = new Font(Font.REGULAR, 10, Color.WHITE);
 
     public void init(){
@@ -123,23 +124,27 @@ public class Interface implements Drawable{
                 0, 1, 2,
                 0, 3, 2
         };
-        this.button1 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "button1", nameX, maxY-nameY,
-                             ()-> Window.workspace.strings.get(0).text = this.button1.name.text);
+        this.button1 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "maths1", nameX, maxY-nameY,
+                             ()-> { Window.workspace.dispose();
+                                 Window.workspace.contentLocation="core/assets/maths1.theory";
+                                 Window.workspace.init();});
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
-        this.button2 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "button2", nameX, maxY-nameY,
-                ()-> Window.workspace.strings.get(0).text = this.button2.name.text);
+        this.button2 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "maths2", nameX, maxY-nameY,
+                ()-> { Window.workspace.dispose();
+                    Window.workspace.contentLocation="core/assets/text0.theory";
+                    Window.workspace.init();});
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
-        this.button3 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "button3", nameX, maxY-nameY,
+        this.button3 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "Physics", nameX, maxY-nameY,
                 ()-> Window.workspace.strings.get(0).text = this.button3.name.text);
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
-        this.button4 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "button4", nameX, maxY-nameY,
+        this.button4 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "Chemistry", nameX, maxY-nameY,
                 ()-> Window.workspace.strings.get(0).text = this.button4.name.text);
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
-        this.button5 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "button5", nameX, maxY-nameY,
+        this.button5 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "Gallery", nameX, maxY-nameY,
                 ()-> Window.workspace.strings.get(0).text = this.button5.name.text);
         vertices = new float[]{
                 Drawable.setIntX(buttonWidth), Drawable.setIntY(maxY-buttonHeight), 0.0f,

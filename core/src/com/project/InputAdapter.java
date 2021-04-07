@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 public class InputAdapter implements InputProcessor {
 
     Workspace workspace;
-    static int scrollSpeed = 20;
+    static int scrollSpeed = 30;
 
     public InputAdapter (Workspace workspace) {
         this.workspace = workspace;
@@ -52,8 +52,17 @@ public class InputAdapter implements InputProcessor {
         else if (amountY < 0) {
             GlyphLayout layout = new GlyphLayout();
             SimpleText string = this.workspace.strings.get(this.workspace.strings.size()-1);
+            Picture pic=null;
+            if (this.workspace.pictures!=null && !this.workspace.pictures.isEmpty())
+            pic = this.workspace.pictures.get(this.workspace.pictures.size()-1);
             layout.setText(string.font.font, string.text);
-            if ((string.y + this.workspace.deltaY - layout.height) <= 0){
+            if(pic!=null && (pic.maxY-pic.height)<string.y){
+                if(pic.maxY-pic.height + this.workspace.deltaY<=0) {
+                    this.workspace.deltaY += scroll;
+                    this.workspace.scrollPicture();
+                }
+            }
+            else if ((string.y + this.workspace.deltaY - layout.height) <= 0){
                 this.workspace.deltaY += scroll;
                 this.workspace.scrollPicture();
             }

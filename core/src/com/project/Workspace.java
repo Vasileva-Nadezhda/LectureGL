@@ -42,7 +42,7 @@ public class Workspace implements Drawable{
     public void init() {
         Gdx.input.setInputProcessor(new InputAdapter(this));
         loader = new WorkspaceLoader();
-        loader.contentLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
+        loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight(), this);
         this.layout = new GlyphLayout();
         for (Picture pic : this.pictures) {
             pic.init();
@@ -70,7 +70,7 @@ public class Workspace implements Drawable{
         for (Picture pic : this.pictures) {
             pic.resizeParameters();
         }
-        this.loader.contentLoad(this.contentLocation, 200, Gdx.graphics.getHeight(), this);
+        this.loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight(), this);
         for (Picture pic : this.pictures) {
             pic.resize(this.deltaY);
         }
