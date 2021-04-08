@@ -16,6 +16,9 @@ public class Picture{
     }
 
     public void init() {
+        if(this.picture!=null) {
+            this.picture.dispose();
+        }
         this.picture = new Texture(new float[] {
                 Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY),                0.0f,
                 Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY - this.height),  0.0f,

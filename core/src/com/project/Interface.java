@@ -125,15 +125,19 @@ public class Interface implements Drawable{
                 0, 3, 2
         };
         this.button1 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "maths1", nameX, maxY-nameY,
-                             ()-> { Window.workspace.dispose();
+                             ()-> {
+                                 this.button1.wasSelected = true;
                                  Window.workspace.contentLocation="core/assets/maths1.theory";
-                                 Window.workspace.init();});
+                                 Window.workspace.init();
+        });
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
         this.button2 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "maths2", nameX, maxY-nameY,
-                ()-> { Window.workspace.dispose();
+                ()-> {
                     Window.workspace.contentLocation="core/assets/text0.theory";
-                    Window.workspace.init();});
+                    Window.workspace.init();
+                    this.button2.wasSelected = true;
+        });
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
         this.button3 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null, buttonFont, "Physics", nameX, maxY-nameY,

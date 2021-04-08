@@ -73,7 +73,7 @@ public class Button implements Drawable{
                 Window.an_interface.name_of_last_button = this.name.text;
             }
         }
-        else if(Window.an_interface.name_of_last_button.equals(this.name.text)) {
+        else if(!this.wasSelected && Window.an_interface.name_of_last_button.equals(this.name.text)) {
             this.body.colors = new float[]{
                     InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f,
                     InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f,
@@ -81,6 +81,7 @@ public class Button implements Drawable{
                     InterfaceParameters.SELECTED_INTERFACE_BUTTON.r, InterfaceParameters.SELECTED_INTERFACE_BUTTON.g, InterfaceParameters.SELECTED_INTERFACE_BUTTON.b, 1.0f
             };
             this.body.initColors();
+            this.wasSelected = true;
         }
         else if(this.wasSelected && !Window.an_interface.name_of_last_button.equals(this.name.text))
         {

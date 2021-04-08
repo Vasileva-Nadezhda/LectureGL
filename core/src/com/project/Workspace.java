@@ -22,6 +22,9 @@ public class Workspace implements Drawable{
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth() - minX;
         this.contentLocation = contentLocation;
+        Gdx.input.setInputProcessor(new InputAdapter(this));
+        loader = new WorkspaceLoader();
+        this.layout = new GlyphLayout();
     }
 
     public void addItem(Object item) {
@@ -40,13 +43,14 @@ public class Workspace implements Drawable{
     }
 
     public void init() {
-        Gdx.input.setInputProcessor(new InputAdapter(this));
-        loader = new WorkspaceLoader();
+        if((this.strings!=null && !this.strings.isEmpty()) || (this.pictures!=null && !this.pictures.isEmpty())) {
+            this.dispose();
+        }
         loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight(), this);
-        this.layout = new GlyphLayout();
         for (Picture pic : this.pictures) {
             pic.init();
         }
+        this.deltaY = 0;
     }
 
     public void draw() {
