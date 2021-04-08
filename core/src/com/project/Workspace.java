@@ -46,11 +46,12 @@ public class Workspace implements Drawable{
         if((this.strings!=null && !this.strings.isEmpty()) || (this.pictures!=null && !this.pictures.isEmpty())) {
             this.dispose();
         }
-        loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight(), this);
+        loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight()-5, this);
         for (Picture pic : this.pictures) {
             pic.init();
         }
         this.deltaY = 0;
+        System.out.println("dsd");
     }
 
     public void draw() {
@@ -74,7 +75,7 @@ public class Workspace implements Drawable{
         for (Picture pic : this.pictures) {
             pic.resizeParameters();
         }
-        this.loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight(), this);
+        this.loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight()-5, this);
         for (Picture pic : this.pictures) {
             pic.resize(this.deltaY);
         }
@@ -92,6 +93,7 @@ public class Workspace implements Drawable{
         }
         this.strings.clear();
         this.pictures.clear();
+        System.gc();
     }
 
 }

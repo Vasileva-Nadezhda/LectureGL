@@ -44,12 +44,12 @@ public class InputAdapter implements InputProcessor {
 
     @Override
     public boolean scrolled (float amountX, float amountY) {
-        int scroll = (int)(-amountY)*scrollSpeed;
-        if ((amountY > 0) && ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight())) {
+        int scroll = (int)amountY*scrollSpeed;
+        if ((amountY < 0) && ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight()-5)) {
             this.workspace.deltaY += scroll;
             this.workspace.scrollPicture();
         }
-        else if (amountY < 0) {
+        else if (amountY > 0) {
             GlyphLayout layout = new GlyphLayout();
             SimpleText string = this.workspace.strings.get(this.workspace.strings.size()-1);
             Picture pic=null;

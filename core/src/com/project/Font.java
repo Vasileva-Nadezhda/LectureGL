@@ -13,8 +13,6 @@ public class Font implements Drawable {
 
     final static String BOLD = "core/assets/Bold.ttf";
     final static String REGULAR = "core/assets/Regular.ttf";
-    final static String ITALIC = "core/assets/Italic.ttf";
-    final static String BOLD_ITALIC = "core/assets/Bold-Italic.ttf";
     final static String CHARACTERS = "1234567890!@\"#№$;%^:&?*()-∈_=+\\|/'.><,{[]}`~qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ";
     static Matrix4 matrix;
     String location;

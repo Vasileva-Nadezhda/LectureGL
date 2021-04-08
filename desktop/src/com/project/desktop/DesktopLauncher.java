@@ -12,7 +12,8 @@ public class DesktopLauncher {
 
 	static void start() {
 		config = new LwjglApplicationConfiguration();
-		config.width = 680;
+		LwjglApplicationConfiguration.disableAudio = true;
+		config.gles30ContextMinorVersion = 3;
 		config.allowSoftwareMode=true;
 		config.useGL30 = true;
 		config.pauseWhenBackground = true;
