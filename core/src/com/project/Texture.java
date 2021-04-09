@@ -1,21 +1,19 @@
 package com.project;
 
+import static com.badlogic.gdx.graphics.GL30.*;
+import static com.project.PNGDecoder.RGBA;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.BufferUtils;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-import static com.badlogic.gdx.graphics.GL20.*;
-import static com.project.PNGDecoder.RGBA;
-
 public class Texture extends Figure implements Drawable {
 
     static Shader TextureShader = new Shader("core/assets/TextureVShader.vert",
-            "core/assets//TextureFShader.frag");
+                                           "core/assets//TextureFShader.frag");
 
     String location;
     int textureID;
@@ -38,7 +36,7 @@ public class Texture extends Figure implements Drawable {
         Gdx.gl30.glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    public void init(String location) {
+    public void init (String location) {
         super.init();
         this.posVBO = Gdx.gl.glGenBuffer();
         this.initPositions();
@@ -52,13 +50,13 @@ public class Texture extends Figure implements Drawable {
         poses.put(this.positions);
         poses.flip();
         Gdx.gl.glBindBuffer(GL_ARRAY_BUFFER, this.posVBO);
-        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.positions.length, poses, GL_STATIC_DRAW);
+        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES * this.positions.length, poses, GL_STATIC_DRAW);
         Gdx.gl20.glVertexAttribPointer(2, 2, GL_FLOAT, false, 0,  0);
         Gdx.gl20.glEnableVertexAttribArray(2);
         Gdx.gl30.glBindVertexArray(0);
     }
 
-    public void initTexture(String location) {
+    public void initTexture (String location) {
         ByteBuffer image_buffer = null;
         int textureWidth = 0;
         int textureHeight = 0;
@@ -69,11 +67,11 @@ public class Texture extends Figure implements Drawable {
             textureWidth = decoder.getWidth();
             textureHeight = decoder.getHeight();
             // Decode the PNG file in a ByteBuffer
-            image_buffer = ByteBuffer.allocateDirect(
-                    4 * decoder.getWidth() * decoder.getHeight());
+            image_buffer = ByteBuffer.allocateDirect(4 * decoder.getWidth() * decoder.getHeight());
             decoder.decode(image_buffer, decoder.getWidth() * 4, RGBA);
             image_buffer.flip();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -85,7 +83,7 @@ public class Texture extends Figure implements Drawable {
         Gdx.gl20.glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         // Upload the texture data and generate mip maps (for scaling)
         Gdx.gl20.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0,
-                GL_RGBA, GL_UNSIGNED_BYTE, image_buffer);
+                              GL_RGBA, GL_UNSIGNED_BYTE, image_buffer);
         Gdx.gl20.glGenerateMipmap(GL_TEXTURE_2D);
         // Setup the ST coordinate system
         Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

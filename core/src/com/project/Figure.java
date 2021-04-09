@@ -2,7 +2,6 @@ package com.project;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.BufferUtils;
-
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
@@ -10,21 +9,21 @@ import static com.badlogic.gdx.graphics.GL20.*;
 
 public class Figure implements Drawable {
 
-    static Shader FigureShader = new Shader("core/assets/FigureVShader.vert",
-            "core/assets/FigureFShader.frag");
+    static Shader FigureShader = new Shader ("core/assets/FigureVShader.vert",
+                                          "core/assets/FigureFShader.frag");
     float[] vertices;
     float[] colors;
-    int[] indices;
+    int[]   indices;
 
     int vertVBO, colVBO, VAO, EBO;
 
-    public Figure(float[] vertices, float[] colors, int[] indices) {
+    public Figure (float[] vertices, float[] colors, int[] indices) {
         this.vertices = vertices;
         this.colors = colors;
         this.indices = indices;
     }
 
-    public void init(){
+    public void init() {
         IntBuffer vao = BufferUtils.newIntBuffer(1);
         vao.clear();
         Gdx.gl30.glGenVertexArrays(1, vao);
@@ -41,18 +40,18 @@ public class Figure implements Drawable {
         ind.put(this.indices);
         ind.flip();
         Gdx.gl20.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.EBO);
-        Gdx.gl20.glBufferData(GL_ELEMENT_ARRAY_BUFFER, Integer.SIZE*this.indices.length, ind, GL_STATIC_DRAW);
+        Gdx.gl20.glBufferData(GL_ELEMENT_ARRAY_BUFFER, Integer.SIZE * this.indices.length, ind, GL_STATIC_DRAW);
         // 4. Отвязываем VAO (НЕ EBO)
         Gdx.gl30.glBindVertexArray(0);
     }
 
-    public void initVertices(){
+    public void initVertices() {
         Gdx.gl30.glBindVertexArray(this.VAO);
         FloatBuffer vert = BufferUtils.newFloatBuffer(this.vertices.length);
         vert.put(this.vertices);
         vert.flip();
         Gdx.gl20.glBindBuffer(GL_ARRAY_BUFFER, this.vertVBO);
-        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.vertices.length, vert, GL_STATIC_DRAW);
+        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES * this.vertices.length, vert, GL_STATIC_DRAW);
         Gdx.gl20.glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         Gdx.gl20.glEnableVertexAttribArray(0);
         Gdx.gl30.glBindVertexArray(0);
@@ -64,7 +63,7 @@ public class Figure implements Drawable {
         col.put(this.colors);
         col.flip();
         Gdx.gl.glBindBuffer(GL_ARRAY_BUFFER, this.colVBO);
-        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES*this.colors.length, col, GL_STATIC_DRAW);
+        Gdx.gl20.glBufferData(GL_ARRAY_BUFFER, Float.BYTES * this.colors.length, col, GL_STATIC_DRAW);
         Gdx.gl20.glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
         Gdx.gl20. glEnableVertexAttribArray(1);
         Gdx.gl30.glBindVertexArray(0);

@@ -2,7 +2,6 @@ package com.project;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.BufferUtils;
-
 import java.nio.IntBuffer;
 import java.util.Scanner;
 
@@ -10,32 +9,32 @@ import static com.badlogic.gdx.graphics.GL20.*;
 
 public class Shader {
 
-    private final StringBuilder vertex_file_path;
-    private final StringBuilder fragment_file_path;
+    private final StringBuilder VERTEX_FILE_PATH;
+    private final StringBuilder FRAGMENT_FILE_PATH;
 
     int ProgramID;
 
-    public Shader(String vertex_file_path, String fragment_file_path) {
+    public Shader (String vertex_file_path, String fragment_file_path) {
         StringBuilder vertex_file = new StringBuilder(vertex_file_path.length());
         StringBuilder fragment_file = new StringBuilder(fragment_file_path.length());
         vertex_file.append(vertex_file_path);
-        this.vertex_file_path = vertex_file;
+        this.VERTEX_FILE_PATH = vertex_file;
         fragment_file.append(fragment_file_path);
-        this.fragment_file_path = fragment_file;
+        this.FRAGMENT_FILE_PATH = fragment_file;
     }
 
     public void loadFromFile() {
-        this.ProgramID = loadShaders(this.vertex_file_path, this.fragment_file_path);
+        this.ProgramID = loadShaders(this.VERTEX_FILE_PATH, this.FRAGMENT_FILE_PATH);
     }
 
-    public void bind(){
+    public void bind() {
         Gdx.gl30.glUseProgram(this.ProgramID);
     }
-    public void unbind(){
+    public void unbind() {
         Gdx.gl30.glUseProgram(0);
     }
 
-    private void compileShader(StringBuilder shader_file_path, String shaderSourcePointer, int shaderID) {
+    private void compileShader (StringBuilder shader_file_path, String shaderSourcePointer, int shaderID) {
         System.out.printf("Compiling shader : %s\n", shader_file_path);
         Gdx.gl20.glShaderSource(shaderID, shaderSourcePointer);
         Gdx.gl20.glCompileShader(shaderID);
@@ -52,7 +51,7 @@ public class Shader {
         }
     }
 
-    int loadShaders(StringBuilder vertex_file_path, StringBuilder fragment_file_path) {
+    int loadShaders (StringBuilder vertex_file_path, StringBuilder fragment_file_path) {
         // Create the shaders
         int vertexShaderID = Gdx.gl20.glCreateShader(GL_VERTEX_SHADER);
         int fragmentShaderID = Gdx.gl20.glCreateShader(GL_FRAGMENT_SHADER);
@@ -89,7 +88,7 @@ public class Shader {
         return ProgramID;
     }
 
-    String readShaderCode(String shader_file_path){
+    String readShaderCode (String shader_file_path) {
         StringBuilder str = new StringBuilder();
         try (Scanner scanner = new Scanner(new java.io.File(shader_file_path))){
             while (scanner.hasNextLine()) {

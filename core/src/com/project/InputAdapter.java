@@ -44,29 +44,69 @@ public class InputAdapter implements InputProcessor {
 
     @Override
     public boolean scrolled (float amountX, float amountY) {
-        int scroll = (int)amountY*scrollSpeed;
-        if ((amountY < 0) && ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight()-5)) {
-            this.workspace.deltaY += scroll;
-            this.workspace.scrollPicture();
+        int scroll = (int)amountY * scrollSpeed;
+        if (amountY < 0) {
+            if (!this.workspace.strings.isEmpty()) {
+                if (!this.workspace.pictures.isEmpty()) {
+                    Picture pic = this.workspace.pictures.get(0);
+                    SimpleText string = this.workspace.strings.get(0);
+                    if (pic.maxY >= string.y) {
+                        if (pic.maxY + this.workspace.deltaY >= Gdx.graphics.getHeight() - 15) {
+                            this.workspace.deltaY += scroll;
+                            this.workspace.scrollPicture();
+                        }
+                    }
+                    else {
+                        if ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight() - 15) {
+                            this.workspace.deltaY += scroll;
+                            this.workspace.scrollPicture();
+                        }
+                    }
+                }
+                else {
+                    if ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight() - 15) {
+                        this.workspace.deltaY += scroll;
+                        this.workspace.scrollPicture();
+                    }
+                }
+            }
+            else {
+                if (!this.workspace.pictures.isEmpty()) {
+                    Picture pic = this.workspace.pictures.get(0);
+                    if (pic.maxY + this.workspace.deltaY >= Gdx.graphics.getHeight() - 15) {
+                        this.workspace.deltaY += scroll;
+                        this.workspace.scrollPicture();
+                    }
+                }
+            }
         }
         else if (amountY > 0) {
             GlyphLayout layout = new GlyphLayout();
-            SimpleText string = this.workspace.strings.get(this.workspace.strings.size()-1);
-            Picture pic=null;
-            if (this.workspace.pictures!=null && !this.workspace.pictures.isEmpty())
-            pic = this.workspace.pictures.get(this.workspace.pictures.size()-1);
-            layout.setText(string.font.font, string.text);
-            if(pic!=null && (pic.maxY-pic.height)<string.y){
-                if(pic.maxY-pic.height + this.workspace.deltaY<=0) {
+            Picture pic = null;
+            if (this.workspace.pictures != null && !this.workspace.pictures.isEmpty()) {
+                pic = this.workspace.pictures.get(this.workspace.pictures.size() - 1);
+            }
+            if (!this.workspace.strings.isEmpty()) {
+                SimpleText string = this.workspace.strings.get(this.workspace.strings.size() - 1);
+                layout.setText(string.font.font, string.text);
+                if (pic != null && (pic.maxY - pic.height) < string.y) {
+                    if (pic.maxY - pic.height + this.workspace.deltaY <= 0) {
+                        this.workspace.deltaY += scroll;
+                        this.workspace.scrollPicture();
+                    }
+                } else if ((string.y + this.workspace.deltaY - layout.height) <= 0) {
                     this.workspace.deltaY += scroll;
                     this.workspace.scrollPicture();
                 }
             }
-            else if ((string.y + this.workspace.deltaY - layout.height) <= 0){
-                this.workspace.deltaY += scroll;
-                this.workspace.scrollPicture();
+            else {
+                if (pic.maxY - pic.height + this.workspace.deltaY <= 0) {
+                    this.workspace.deltaY += scroll;
+                    this.workspace.scrollPicture();
+                }
             }
         }
         return false;
     }
+
 }

@@ -16,7 +16,7 @@ public class Workspace implements Drawable{
     int width, height;
     int deltaY = 0;
 
-    public Workspace(int minX, int minY, String contentLocation) {
+    public Workspace (int minX, int minY, String contentLocation) {
         this.minX = minX;
         this.minY = minY;
         this.height = Gdx.graphics.getHeight();
@@ -25,46 +25,42 @@ public class Workspace implements Drawable{
         Gdx.input.setInputProcessor(new InputAdapter(this));
         loader = new WorkspaceLoader();
         this.layout = new GlyphLayout();
+        this.strings = new ArrayList<>();
+        this.pictures = new ArrayList<>();
     }
 
-    public void addItem(Object item) {
+    public void addItem (Object item) {
         if(item instanceof SimpleText){
-            if(this.strings==null){
-                this.strings = new ArrayList<>();
-            }
             this.strings.add((SimpleText)item);
         }
         else if (item instanceof Picture) {
-            if (this.pictures == null) {
-                this.pictures = new ArrayList<>();
-            }
             this.pictures.add((Picture)item);
         }
     }
 
     public void init() {
-        if((this.strings!=null && !this.strings.isEmpty()) || (this.pictures!=null && !this.pictures.isEmpty())) {
+        if ((this.strings != null && !this.strings.isEmpty()) ||
+           (this.pictures != null && !this.pictures.isEmpty())) {
             this.dispose();
         }
-        loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight()-5, this);
+        loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight() - 15, this);
         for (Picture pic : this.pictures) {
             pic.init();
         }
         this.deltaY = 0;
-        System.out.println("dsd");
     }
 
     public void draw() {
-        for(SimpleText string : this.strings){
+        for (SimpleText string : this.strings) {
            this.layout.reset();
            this.layout.setText(string.font.font, string.text);
            if (((string.y + this.deltaY - this.layout.height) < Gdx.graphics.getHeight())
-                && (string.y + this.deltaY) > 0) {
-                string.draw(string.y+this.deltaY);
+              && (string.y + this.deltaY) > 0) {
+                string.draw(string.y + this.deltaY);
            }
         }
         for (Picture pic : this.pictures) {
-            if (pic.maxY-pic.height+this.deltaY<Gdx.graphics.getHeight() && pic.maxY+this.deltaY>0){
+            if (pic.maxY - pic.height + this.deltaY < Gdx.graphics.getHeight() && pic.maxY + this.deltaY>0) {
                 pic.draw();
             }
         }
@@ -75,7 +71,7 @@ public class Workspace implements Drawable{
         for (Picture pic : this.pictures) {
             pic.resizeParameters();
         }
-        this.loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight()-5, this);
+        this.loader.contentLoad(this.contentLocation, 115, Gdx.graphics.getHeight() - 15, this);
         for (Picture pic : this.pictures) {
             pic.resize(this.deltaY);
         }

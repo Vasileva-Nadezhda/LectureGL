@@ -13,16 +13,16 @@ public class Font implements Drawable {
 
     final static String BOLD = "core/assets/Bold.ttf";
     final static String REGULAR = "core/assets/Regular.ttf";
-    final static String CHARACTERS = "1234567890!@\"#№$;%^:&?*()-∈_=+\\|/'.><,{[]}`~qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ";
+    final static String CHARACTERS = "αβ1234567890!@\"#№$;%^:&?*()-_=+\\|/'.><,{[]}`~qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ";
     static Matrix4 matrix;
     String location;
-    int size;
     Color color;
     BitmapFont font;
     SpriteBatch batch;
     GlyphLayout layout;
+    int size;
 
-    public Font(String location, int size, Color color) {
+    public Font (String location, int size, Color color) {
         this.location = location;
         this.size = size;
         this.color = color;
@@ -41,7 +41,7 @@ public class Font implements Drawable {
         matrix = new Matrix4();
     }
 
-    public void draw(int x, int y, String text) {
+    public void draw (int x, int y, String text) {
         this.batch.setProjectionMatrix(matrix.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         this.batch.begin();
         this.font.draw(this.batch, text, x, y);
@@ -51,7 +51,6 @@ public class Font implements Drawable {
     public void dispose() {
         this.batch.dispose();
         this.font.dispose();
-
     }
 
 }

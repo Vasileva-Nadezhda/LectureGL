@@ -10,7 +10,6 @@
 {{HEADER}}Нахождение формулы для функции, обратной данной{{HEADER}}
 {{MAIN}}Пользуясь формулой y=f(x), следует выразить x через y, а в полученной формуле x=g(y) заменить x на y, а y на x.{{MAIN}}
 {{PIC}}
-x=220
 width=300
 height=300
 location=core/assets/obratnaja.png

@@ -1,5 +1,7 @@
 package com.project;
 
+import com.badlogic.gdx.Gdx;
+
 public class Picture{
 
     Texture picture;
@@ -7,7 +9,7 @@ public class Picture{
     int minX, maxY;
     int width, height;
 
-    public Picture(int minX, int maxY, int width, int height, String location) {
+    public Picture (int minX, int maxY, int width, int height, String location) {
         this.minX = minX;
         this.maxY = maxY;
         this.width = width;
@@ -16,7 +18,7 @@ public class Picture{
     }
 
     public void init() {
-        if(this.picture!=null) {
+        if (this.picture != null) {
             this.picture.dispose();
         }
         this.picture = new Texture(new float[] {
@@ -51,10 +53,10 @@ public class Picture{
     public void resizeParameters() {
         this.height = Drawable.resizeY(this.height);
         this.width = Drawable.resizeX(this.width);
-        this.minX = Drawable.resizeX(this.minX);
+        this.minX = (Gdx.graphics.getWidth() / 2) - (this.width / 2) + 50;
     }
 
-    public void resize(int deltaY) {
+    public void resize (int deltaY) {
         this.picture.vertices = new float[] {
                 Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY + deltaY),                 0.0f,
                 Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY + deltaY - this.height),   0.0f,

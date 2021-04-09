@@ -1,7 +1,7 @@
 package com.project;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -19,37 +19,38 @@ public class WorkspaceLoader {
         String location = "";
         this.str = this.scanner.nextLine();
         while (!this.str.contains("{{PIC}}")) {
-            if (this.str.startsWith("x=")) {
-                x = Integer.parseInt(this.str.substring(2));
-            } else if (this.str.startsWith("width=")) {
-                width = Integer.parseInt(this.str.substring(6));
-            } else if (this.str.startsWith("height=")) {
-                height = Integer.parseInt(this.str.substring(7));
-            } else if (this.str.startsWith("location=")) {
+            if (this.str.startsWith("width=")) {
+                width = Integer.parseInt(this.str.substring(6)) * Gdx.graphics.getWidth() / 640;
+            }
+            else if (this.str.startsWith("height=")) {
+                height = Integer.parseInt(this.str.substring(7)) * Gdx.graphics.getHeight() / 480;
+            }
+            else if (this.str.startsWith("location=")) {
                 location = this.str.substring(9);
             }
             this.str = this.scanner.nextLine();
         }
+        x = (Gdx.graphics.getWidth() / 2) - (width / 2) + 50;
         this.nowY -= height + 10;
         return new Picture(x, y, width, height, location);
     }
 
-    private StringBuilder processTag(String line, int startX, String tag){
+    private StringBuilder processTag (String line, int startX, String tag) {
         Font font = null;
         int length;
         StringBuilder string = new StringBuilder();
         if (tag.equals("{{MAIN}}")) {
             font = InterfaceParameters.MAIN_FONT;
         }
-        else if (tag.equals("{{HEADER}}")){
+        else if (tag.equals("{{HEADER}}")) {
             font = InterfaceParameters.HEADER_FONT;
         }
-        line = line.replaceFirst("\\{\\{"+tag.substring(2), "        ");
+        line = line.replaceFirst("\\{\\{" + tag.substring(2), "        ");
         this.layout = new GlyphLayout();
         font.layout.setText(font.font, "W");
         while (scanner.hasNextLine() || line.endsWith(tag + "\n")) {
             this.layout.setText(font.font, line);
-            if(line.endsWith(tag + "\n")) {
+            if (line.endsWith(tag + "\n")) {
                 line = line.replace(tag + "\n", "\n");
                 this.layout.setText(font.font, line);
                 while (this.layout.width > Gdx.graphics.getWidth() - startX) {
@@ -95,7 +96,7 @@ public class WorkspaceLoader {
                 line = line.substring(line.length() - length + i);
                 this.layout.setText(font.font, line);
             }
-            if(!line.endsWith(tag + "\n")) {
+            if (!line.endsWith(tag + "\n")) {
                 string.append(line);
             }
             if (scanner.hasNextLine()) {
@@ -107,7 +108,7 @@ public class WorkspaceLoader {
         return string;
     }
 
-    public void contentLoad(String location, int startX, int startY, Workspace workspace){
+    public void contentLoad (String location, int startX, int startY, Workspace workspace) {
         this.nowY = startY;
         int picture_count = 0;
         boolean load_picture = workspace.pictures == null || workspace.pictures.isEmpty();
@@ -117,11 +118,11 @@ public class WorkspaceLoader {
                 this.str = this.scanner.nextLine() + "\n";
                 if (this.str.contains("{{MAIN}}")) {
                     workspace.addItem(new SimpleText(startX, nowY, InterfaceParameters.MAIN_FONT,
-                            processTag(this.str, startX, "{{MAIN}}").toString()));
+                                      processTag(this.str, startX, "{{MAIN}}").toString()));
                 }
                 else if (this.str.contains("{{HEADER}}")) {
                     workspace.addItem(new SimpleText(startX, nowY, InterfaceParameters.HEADER_FONT,
-                            processTag(this.str, startX, "{{HEADER}}").toString()));
+                                      processTag(this.str, startX, "{{HEADER}}").toString()));
                 }
                 else if (this.str.contains("{{PIC}}")) {
                     if (load_picture) {

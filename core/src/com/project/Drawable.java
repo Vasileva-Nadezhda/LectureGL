@@ -2,7 +2,8 @@ package com.project;
 
 import com.badlogic.gdx.Gdx;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 public interface Drawable {
 
@@ -16,26 +17,28 @@ public interface Drawable {
 
     void dispose();
 
-    static float setIntX(int x) {
-        return (float)((x*screenSize.getWidth()/Gdx.graphics.getWidth())/((screenSize.getWidth() / 2)))-1;
+    static float setIntX (int x) {
+        return (float)((x * screenSize.getWidth() / Gdx.graphics.getWidth()) / ((screenSize.getWidth() / 2))) - 1;
     }
 
-    static float setIntY(int y) {
-        return (float)((y*screenSize.getHeight()/Gdx.graphics.getHeight())/(screenSize.getHeight() / 2))-1;
+    static float setIntY (int y) {
+        return (float)((y * screenSize.getHeight() / Gdx.graphics.getHeight()) / (screenSize.getHeight() / 2)) - 1;
     }
 
-    static int setFloatX(float x) {
-        return (int)(((x+1)*(screenSize.getWidth() / 2))*Gdx.graphics.getWidth()/screenSize.getWidth());
+    static int setFloatX (float x) {
+        return (int)(((x + 1) * (screenSize.getWidth() / 2)) * Gdx.graphics.getWidth() / screenSize.getWidth());
     }
 
-    static int setFloatY(float y) {
-        return (int)(((y+1)*(screenSize.getHeight() / 2))*Gdx.graphics.getHeight()/screenSize.getHeight());
+    static int setFloatY (float y) {
+        return (int)(((y + 1) * (screenSize.getHeight() / 2)) * Gdx.graphics.getHeight() / screenSize.getHeight());
     }
 
-    static int resizeY(int y){
-        return y*Gdx.graphics.getHeight()/Window.oldHeight;
+    static int resizeY (int y) {
+        return y * Gdx.graphics.getHeight() / Window.oldHeight;
     }
-    static int resizeX(int x){
-        return x*Gdx.graphics.getWidth()/Window.oldWidth;
+
+    static int resizeX (int x) {
+        return x * Gdx.graphics.getWidth() / Window.oldWidth;
     }
+
 }

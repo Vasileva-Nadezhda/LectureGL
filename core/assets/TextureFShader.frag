@@ -7,7 +7,6 @@ in vec2 fTexCoordinates;
 
 out vec4 color;
 
-void main()
-{
-    color = texture(TEX_SAMPLER, fTexCoordinates)*fColor;
+void main() {
+    color = texture(TEX_SAMPLER, fTexCoordinates) * fColor;
 }
