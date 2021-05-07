@@ -2,7 +2,6 @@ package com.project;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class InputAdapter implements InputProcessor {
 
@@ -53,20 +52,20 @@ public class InputAdapter implements InputProcessor {
                     if (pic.maxY >= string.y) {
                         if (pic.maxY + this.workspace.deltaY >= Gdx.graphics.getHeight() - 15) {
                             this.workspace.deltaY += scroll;
-                            this.workspace.scrollPicture();
+                            this.workspace.scroll();
                         }
                     }
                     else {
                         if ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight() - 15) {
                             this.workspace.deltaY += scroll;
-                            this.workspace.scrollPicture();
+                            this.workspace.scroll();
                         }
                     }
                 }
                 else {
                     if ((this.workspace.strings.get(0).y + this.workspace.deltaY + scroll) >= Gdx.graphics.getHeight() - 15) {
                         this.workspace.deltaY += scroll;
-                        this.workspace.scrollPicture();
+                        this.workspace.scroll();
                     }
                 }
             }
@@ -75,34 +74,32 @@ public class InputAdapter implements InputProcessor {
                     Picture pic = this.workspace.pictures.get(0);
                     if (pic.maxY + this.workspace.deltaY >= Gdx.graphics.getHeight() - 15) {
                         this.workspace.deltaY += scroll;
-                        this.workspace.scrollPicture();
+                        this.workspace.scroll();
                     }
                 }
             }
         }
         else if (amountY > 0) {
-            GlyphLayout layout = new GlyphLayout();
             Picture pic = null;
             if (this.workspace.pictures != null && !this.workspace.pictures.isEmpty()) {
                 pic = this.workspace.pictures.get(this.workspace.pictures.size() - 1);
             }
             if (!this.workspace.strings.isEmpty()) {
                 SimpleText string = this.workspace.strings.get(this.workspace.strings.size() - 1);
-                layout.setText(string.font.font, string.text);
                 if (pic != null && (pic.maxY - pic.height) < string.y) {
                     if (pic.maxY - pic.height + this.workspace.deltaY <= 0) {
                         this.workspace.deltaY += scroll;
-                        this.workspace.scrollPicture();
+                        this.workspace.scroll();
                     }
-                } else if ((string.y + this.workspace.deltaY - layout.height) <= 0) {
+                } else if ((string.y + this.workspace.deltaY - string.height) <= 0) {
                     this.workspace.deltaY += scroll;
-                    this.workspace.scrollPicture();
+                    this.workspace.scroll();
                 }
             }
             else {
                 if (pic.maxY - pic.height + this.workspace.deltaY <= 0) {
                     this.workspace.deltaY += scroll;
-                    this.workspace.scrollPicture();
+                    this.workspace.scroll();
                 }
             }
         }

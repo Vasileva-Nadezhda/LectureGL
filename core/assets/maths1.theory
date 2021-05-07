@@ -12,5 +12,9 @@
 {{PIC}}
 width=300
 height=300
-location=core/assets/obratnaja.png
+location=./core/assets/obratnaja.png
 {{PIC}}
+{{HEADER-LINK}}
+load=./core/assets/gallery.theory
+Загрузить галерею.
+{{HEADER-LINK}}

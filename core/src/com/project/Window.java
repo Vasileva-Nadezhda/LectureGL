@@ -20,7 +20,7 @@ public class Window extends ApplicationAdapter {
 		an_interface.init();
 		oldHeight = Gdx.graphics.getHeight();
 		oldWidth = Gdx.graphics.getWidth();
-		workspace = new Workspace(2, 20, "core/assets/gallery.theory");
+		workspace = new Workspace("./core/assets/gallery.theory");
 		workspace.init();
 		an_interface.name_of_last_button = an_interface.button5.name.text;
 		Texture.TextureShader.loadFromFile();
@@ -47,12 +47,14 @@ public class Window extends ApplicationAdapter {
 		workspace.resize();
 		oldHeight = Gdx.graphics.getHeight();
 		oldWidth = Gdx.graphics.getWidth();
+		InputAdapter.scrollSpeed *= (double) Gdx.graphics.getHeight() / oldHeight;
 	}
 
 	@Override
 	public void dispose () {
 		an_interface.dispose();
 		workspace.dispose();
+		InterfaceParameters.dispose();
 	}
 
 }

@@ -1,8 +1,6 @@
 package com.project;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-
 import java.util.ArrayList;
 
 public class Workspace implements Drawable{
@@ -11,20 +9,16 @@ public class Workspace implements Drawable{
     ArrayList<Picture> pictures;
     String contentLocation;
     WorkspaceLoader loader;
-    GlyphLayout layout;
-    int minX, minY;
     int width, height;
     int deltaY = 0;
+    boolean need_to_set = false;
 
-    public Workspace (int minX, int minY, String contentLocation) {
-        this.minX = minX;
-        this.minY = minY;
+    public Workspace (String contentLocation) {
         this.height = Gdx.graphics.getHeight();
-        this.width = Gdx.graphics.getWidth() - minX;
+        this.width = Gdx.graphics.getWidth();
         this.contentLocation = contentLocation;
         Gdx.input.setInputProcessor(new InputAdapter(this));
         loader = new WorkspaceLoader();
-        this.layout = new GlyphLayout();
         this.strings = new ArrayList<>();
         this.pictures = new ArrayList<>();
     }
@@ -52,17 +46,24 @@ public class Workspace implements Drawable{
 
     public void draw() {
         for (SimpleText string : this.strings) {
-           this.layout.reset();
-           this.layout.setText(string.font.font, string.text);
-           if (((string.y + this.deltaY - this.layout.height) < Gdx.graphics.getHeight())
+           if (((string.y + this.deltaY - string.height) < Gdx.graphics.getHeight())
               && (string.y + this.deltaY) > 0) {
-                string.draw(string.y + this.deltaY);
+                if (string instanceof Link) {
+                    string.draw();
+                }
+                else {
+                    string.draw(string.y + this.deltaY);
+                }
            }
         }
         for (Picture pic : this.pictures) {
             if (pic.maxY - pic.height + this.deltaY < Gdx.graphics.getHeight() && pic.maxY + this.deltaY>0) {
                 pic.draw();
             }
+        }
+        if (this.need_to_set) {
+            this.init();
+            this.need_to_set = false;
         }
     }
 
@@ -77,15 +78,25 @@ public class Workspace implements Drawable{
         }
     }
 
-    public void scrollPicture() {
+    public void scroll() {
         for (Picture pic : this.pictures) {
             pic.resize(this.deltaY);
         }
     }
 
+    public void setWorkspace (String contentLocation) {
+        this.contentLocation = contentLocation;
+        this.need_to_set = true;
+    }
+
     public void dispose() {
         for (Picture pic : this.pictures) {
             pic.dispose();
+        }
+        for (SimpleText string : this.strings) {
+            if (string instanceof Link) {
+                ((Link) string).dispose();
+            }
         }
         this.strings.clear();
         this.pictures.clear();

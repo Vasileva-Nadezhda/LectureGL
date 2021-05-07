@@ -9,7 +9,7 @@
 {{PIC}}
 width=300
 height=200
-location=core/assets/paral1.png
+location=./core/assets/paral1.png
 {{PIC}}
 {{MAIN}}Доказательство:
 доказательство проведём от противного. Пусть a не параллельна плоскости α, тогда прямая a пересекает плоскость в некоторой точке A. Причём A не находится на b, так как a||b. Согласно признаку скрещивающихся прямых, прямые a и b — скрещивающиеся.
@@ -17,7 +17,7 @@ location=core/assets/paral1.png
 {{PIC}}
 width=300
 height=200
-location=core/assets/paral2.png
+location=./core/assets/paral2.png
 {{PIC}}
 {{MAIN}}Следующие две теоремы очень часто используются при решении задач.{{MAIN}}
 {{HEADER}}Теорема{{HEADER}}
@@ -25,7 +25,7 @@ location=core/assets/paral2.png
 {{PIC}}
 width=300
 height=275
-location=core/assets/paral3.png
+location=./core/assets/paral3.png
 {{PIC}}
 {{MAIN}}Прямую b иногда называют следом плоскости β на плоскости α.{{MAIN}}
 {{HEADER}}Теорема{{HEADER}}

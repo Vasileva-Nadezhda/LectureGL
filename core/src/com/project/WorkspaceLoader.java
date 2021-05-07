@@ -13,9 +13,10 @@ public class WorkspaceLoader {
     GlyphLayout layout;
     String str;
     int nowY;
+    int startX;
 
     private Picture loadPicture() {
-        int x = 0, y = this.nowY, width = 0, height = 0;
+        int x, y = this.nowY, width = 0, height = 0;
         String location = "";
         this.str = this.scanner.nextLine();
         while (!this.str.contains("{{PIC}}")) {
@@ -35,14 +36,24 @@ public class WorkspaceLoader {
         return new Picture(x, y, width, height, location);
     }
 
-    private StringBuilder processTag (String line, int startX, String tag) {
+    private Link loadLink (String tag) {
+        String s = tag;
+        while (!s.startsWith("load=") && !s.startsWith("copy=")) {
+            s = scanner.nextLine();
+        }
+        StringBuilder text = this.processTag(tag + this.scanner.nextLine(), tag);
+        Font font = tag.contains("MAIN") ? InterfaceParameters.MAIN_FONT : InterfaceParameters.HEADER_FONT;
+        return new Link (this.startX, this.nowY, font, text.toString(), s);
+    }
+
+    private StringBuilder processTag (String line, String tag) {
         Font font = null;
         int length;
         StringBuilder string = new StringBuilder();
-        if (tag.equals("{{MAIN}}")) {
+        if (tag.equals("{{MAIN}}") || tag.equals("{{MAIN-LINK}}")) {
             font = InterfaceParameters.MAIN_FONT;
         }
-        else if (tag.equals("{{HEADER}}")) {
+        else if (tag.equals("{{HEADER}}") || tag.equals("{{HEADER-LINK}}")) {
             font = InterfaceParameters.HEADER_FONT;
         }
         line = line.replaceFirst("\\{\\{" + tag.substring(2), "        ");
@@ -53,18 +64,18 @@ public class WorkspaceLoader {
             if (line.endsWith(tag + "\n")) {
                 line = line.replace(tag + "\n", "\n");
                 this.layout.setText(font.font, line);
-                while (this.layout.width > Gdx.graphics.getWidth() - startX) {
-                    length = (int)((this.layout.width - (Gdx.graphics.getWidth() - startX)) / font.layout.width);
+                while (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
+                    length = (int)((this.layout.width - (Gdx.graphics.getWidth() - this.startX)) / font.layout.width);
                     int i = 0;
                     this.layout.setText(font.font, line.substring(0, line.length() - length + i));
-                    if (this.layout.width > Gdx.graphics.getWidth() - startX) {
-                        while (this.layout.width > Gdx.graphics.getWidth() - startX) {
+                    if (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
+                        while (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
                             --i;
                             this.layout.setText(font.font, line.substring(0, line.length() - length + i));
                         }
                     }
-                    else if (this.layout.width < Gdx.graphics.getWidth() - startX) {
-                        while (this.layout.width < Gdx.graphics.getWidth() - startX) {
+                    else if (this.layout.width < Gdx.graphics.getWidth() - this.startX) {
+                        while (this.layout.width < Gdx.graphics.getWidth() - this.startX) {
                             ++i;
                             this.layout.setText(font.font, line.substring(0, line.length() - length + i));
                         }
@@ -76,18 +87,18 @@ public class WorkspaceLoader {
                 string.append(line);
                 break;
             }
-            while (this.layout.width > Gdx.graphics.getWidth() - startX) {
-                length = (int)((this.layout.width - (Gdx.graphics.getWidth() - startX)) / font.layout.width);
+            while (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
+                length = (int)((this.layout.width - (Gdx.graphics.getWidth() - this.startX)) / font.layout.width);
                 int i = 0;
                 this.layout.setText(font.font, line.substring(0, line.length() - length + i));
-                if (this.layout.width > Gdx.graphics.getWidth() - startX) {
-                    while (this.layout.width > Gdx.graphics.getWidth() - startX) {
+                if (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
+                    while (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
                         --i;
                         this.layout.setText(font.font, line.substring(0, line.length() - length + i));
                     }
                 }
-                else if (this.layout.width < Gdx.graphics.getWidth() - startX) {
-                    while (this.layout.width < Gdx.graphics.getWidth() - startX) {
+                else if (this.layout.width < Gdx.graphics.getWidth() - this.startX) {
+                    while (this.layout.width < Gdx.graphics.getWidth() - this.startX) {
                         ++i;
                         this.layout.setText(font.font, line.substring(0, line.length() - length + i));
                     }
@@ -110,6 +121,7 @@ public class WorkspaceLoader {
 
     public void contentLoad (String location, int startX, int startY, Workspace workspace) {
         this.nowY = startY;
+        this.startX = startX;
         int picture_count = 0;
         boolean load_picture = workspace.pictures == null || workspace.pictures.isEmpty();
         try {
@@ -117,12 +129,18 @@ public class WorkspaceLoader {
             while (scanner.hasNextLine()) {
                 this.str = this.scanner.nextLine() + "\n";
                 if (this.str.contains("{{MAIN}}")) {
-                    workspace.addItem(new SimpleText(startX, nowY, InterfaceParameters.MAIN_FONT,
-                                      processTag(this.str, startX, "{{MAIN}}").toString()));
+                    workspace.addItem(new SimpleText(this.startX, nowY, InterfaceParameters.MAIN_FONT,
+                                      processTag(this.str, "{{MAIN}}").toString()));
                 }
                 else if (this.str.contains("{{HEADER}}")) {
-                    workspace.addItem(new SimpleText(startX, nowY, InterfaceParameters.HEADER_FONT,
-                                      processTag(this.str, startX, "{{HEADER}}").toString()));
+                    workspace.addItem(new SimpleText(this.startX, nowY, InterfaceParameters.HEADER_FONT,
+                                      processTag(this.str, "{{HEADER}}").toString()));
+                }
+                else if (this.str.contains("{{HEADER-LINK}}")) {
+                    workspace.addItem(loadLink("{{HEADER-LINK}}"));
+                }
+                else if (this.str.contains("{{MAIN-LINK}}")) {
+                    workspace.addItem(loadLink("{{MAIN-LINK}}"));
                 }
                 else if (this.str.contains("{{PIC}}")) {
                     if (load_picture) {
@@ -132,7 +150,6 @@ public class WorkspaceLoader {
                         workspace.pictures.get(picture_count).maxY = this.nowY;
                         this.nowY -= workspace.pictures.get(picture_count).height + 15;
                         picture_count++;
-                        this.str = this.scanner.nextLine();
                         while (!this.str.contains("{{PIC}}")) {
                             this.str = this.scanner.nextLine();
                         }

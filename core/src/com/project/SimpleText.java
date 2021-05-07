@@ -1,9 +1,13 @@
 package com.project;
 
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+
 public class SimpleText {
 
     int x;
     int y;
+    int width;
+    int height;
     Font font;
     String text;
 
@@ -12,6 +16,9 @@ public class SimpleText {
         this.y = y;
         this.font = font;
         this.text = text;
+        GlyphLayout layout = new GlyphLayout(font.font, text);
+        this.width = (int) layout.width;
+        this.height = (int) layout.height;
     }
 
     public void draw() {

@@ -10,17 +10,15 @@ public class Button implements Drawable {
     boolean wasSelected = false;
     Figure body;
     Texture icon;
-    Font font;
     SimpleText name;
     Runnable action;
 
-    public Button(Figure body, Texture icon, Font font, String name, int textX, int textY, Runnable action){
+    public Button(Figure body, Texture icon, String name, int textX, int textY, Runnable action){
         this.body = body;
         if (icon != null) {
             this.icon = icon;
         }
-        this.font = font;
-        this.name = new SimpleText(textX, textY, this.font, name);
+        this.name = new SimpleText(textX, textY, InterfaceParameters.BUTTON_FONT, name);
         this.action = action;
     }
 

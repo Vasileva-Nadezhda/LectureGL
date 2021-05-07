@@ -19,7 +19,7 @@ public class DesktopLauncher {
 		config.pauseWhenBackground = true;
 		config.backgroundFPS = -1;
 		config.title="Educational Platform";
-		config.addIcon("core/assets/icon32.png", Files.FileType.Local);
+		config.addIcon("./core/assets/icon32.png", Files.FileType.Local);
 		window = new Window();
 	}
 

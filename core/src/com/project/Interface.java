@@ -12,7 +12,6 @@ public class Interface implements Drawable {
     Button button4;
     Button button5;
     String name_of_last_button = "";
-    Font buttonFont = new Font(Font.REGULAR, 10, Color.WHITE);
 
     public void init() {
         this.button1.init();
@@ -20,7 +19,6 @@ public class Interface implements Drawable {
         this.button3.init();
         this.button4.init();
         this.button5.init();
-        this.buttonFont.init();
         this.panel.init();
     }
 
@@ -35,7 +33,6 @@ public class Interface implements Drawable {
     }
 
     public void dispose() {
-        this.buttonFont.dispose();
         this.button1.dispose();
         this.button2.dispose();
         this.button3.dispose();
@@ -125,45 +122,45 @@ public class Interface implements Drawable {
                 0, 3, 2
         };
         this.button1 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                                  buttonFont, "maths1", nameX, maxY - nameY,
+                            "maths1", nameX, maxY - nameY,
                                   ()-> {
                                         this.button1.wasSelected = true;
-                                        Window.workspace.contentLocation="core/assets/maths1.theory";
+                                        Window.workspace.contentLocation="./core/assets/maths1.theory";
                                         Window.workspace.init();
                                   });
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
         this.button2 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                                  buttonFont, "maths2", nameX, maxY - nameY,
+                            "maths2", nameX, maxY - nameY,
                                   ()-> {
                                         this.button2.wasSelected = true;
-                                        Window.workspace.contentLocation="core/assets/maths2.theory";
+                                        Window.workspace.contentLocation="./core/assets/maths2.theory";
                                         Window.workspace.init();
                                   });
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
         this.button3 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                                  buttonFont, "Physics", nameX, maxY - nameY,
+                            "Physics", nameX, maxY - nameY,
                                   ()-> {
                                         this.button3.wasSelected = true;
-                                        Window.workspace.contentLocation="core/assets/physics.theory";
+                                        Window.workspace.contentLocation="./core/assets/physics.theory";
                                         Window.workspace.init();
                                   });
         maxY -= buttonHeight;
         moveVertices(vertices, maxY, buttonHeight);
         this.button4 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                                  buttonFont, "Chemistry", nameX, maxY - nameY,
+                            "Chemistry", nameX, maxY - nameY,
                                   ()-> {
                                         this.button4.wasSelected = true;
-                                        Window.workspace.contentLocation="core/assets/chemistry.theory";
+                                        Window.workspace.contentLocation="./core/assets/chemistry.theory";
                                         Window.workspace.init();
                                   });
         moveVertices(vertices, maxY, buttonHeight);
         this.button5 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                                  buttonFont, "Gallery", nameX, maxY - nameY,
+                            "Gallery", nameX, maxY - nameY,
                                   ()-> {
                                         this.button5.wasSelected = true;
-                                        Window.workspace.contentLocation="core/assets/gallery.theory";
+                                        Window.workspace.contentLocation="./core/assets/gallery.theory";
                                         Window.workspace.init();
                                   });
         vertices = new float[] {

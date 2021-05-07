@@ -6,6 +6,7 @@ public class InterfaceParameters {
     public static Color SELECTED_INTERFACE_BUTTON;
     public static Font HEADER_FONT;
     public static Font MAIN_FONT;
+    public static Font BUTTON_FONT;
 
     enum Colors {
         BLACK,
@@ -71,6 +72,14 @@ public class InterfaceParameters {
         }
         HEADER_FONT.init();
         MAIN_FONT.init();
+        BUTTON_FONT = new Font(Font.REGULAR, 10, com.badlogic.gdx.graphics.Color.WHITE);
+        BUTTON_FONT.init();
+    }
+
+    public static void dispose() {
+        MAIN_FONT.dispose();
+        HEADER_FONT.dispose();
+        BUTTON_FONT.dispose();
     }
 
 }
