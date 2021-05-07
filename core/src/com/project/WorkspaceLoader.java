@@ -32,7 +32,7 @@ public class WorkspaceLoader {
             this.str = this.scanner.nextLine();
         }
         x = (Gdx.graphics.getWidth() / 2) - (width / 2) + 50;
-        this.nowY -= height + 10;
+        this.nowY -= height + 15;
         return new Picture(x, y, width, height, location);
     }
 
@@ -58,11 +58,10 @@ public class WorkspaceLoader {
         }
         line = line.replaceFirst("\\{\\{" + tag.substring(2), "        ");
         this.layout = new GlyphLayout();
-        font.layout.setText(font.font, "W");
         while (scanner.hasNextLine() || line.endsWith(tag + "\n")) {
             this.layout.setText(font.font, line);
             if (line.endsWith(tag + "\n")) {
-                line = line.replace(tag + "\n", "\n");
+                line = line.replace(tag + "\n", "");
                 this.layout.setText(font.font, line);
                 while (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
                     length = (int)((this.layout.width - (Gdx.graphics.getWidth() - this.startX)) / font.layout.width);
@@ -115,7 +114,7 @@ public class WorkspaceLoader {
             }
         }
         this.layout.setText(font.font, string.toString());
-        this.nowY -= this.layout.height + 5;
+        this.nowY -= this.layout.height + 15;
         return string;
     }
 
@@ -124,6 +123,8 @@ public class WorkspaceLoader {
         this.startX = startX;
         int picture_count = 0;
         boolean load_picture = workspace.pictures == null || workspace.pictures.isEmpty();
+        InterfaceParameters.HEADER_FONT.layout.setText(InterfaceParameters.HEADER_FONT.font, "W");
+        InterfaceParameters.MAIN_FONT.layout.setText(InterfaceParameters.MAIN_FONT.font, "W");
         try {
             this.scanner = new Scanner(new InputStreamReader(new FileInputStream(location), StandardCharsets.UTF_8));
             while (scanner.hasNextLine()) {
@@ -156,6 +157,8 @@ public class WorkspaceLoader {
                     }
                 }
             }
+            InterfaceParameters.HEADER_FONT.layout.setText(InterfaceParameters.HEADER_FONT.font, " ");
+            InterfaceParameters.MAIN_FONT.layout.setText(InterfaceParameters.MAIN_FONT.font, " ");
         }
         catch (Exception e) {
             e.printStackTrace();

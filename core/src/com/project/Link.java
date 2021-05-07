@@ -39,9 +39,9 @@ public class Link extends SimpleText implements Drawable {
 
     private void processInput() {
         if ((Gdx.input.getX() <= (this.x+this.width))
-              && (Gdx.input.getX() >= this.x)
+              && (Gdx.input.getX() >= this.x+this.font.layout.width*8)
               && (Gdx.graphics.getHeight() -Gdx.input.getY() <=  this.y + Window.workspace.deltaY)
-              && (Gdx.graphics.getHeight() -Gdx.input.getY() >= ( this.y - this.height/2 + Window.workspace.deltaY))) {
+              && (Gdx.graphics.getHeight() -Gdx.input.getY() >= ( this.y - this.height + Window.workspace.deltaY))) {
                 if (!this.was_selected) {
                     this.was_selected = true;
                 }
