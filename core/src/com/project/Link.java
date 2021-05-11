@@ -30,24 +30,24 @@ public class Link extends SimpleText implements Drawable {
     public void draw() {
         this.processInput();
         if (was_selected) {
-            this.selected_font.draw(this.x, this.y + Window.workspace.deltaY, this.text);
+            this.selected_font.draw(this.x, this.y + Window.workspaces.get(Window.workspaces.size() - 1).deltaY, this.text);
         }
         else {
-            this.font.draw(this.x, this.y + Window.workspace.deltaY, this.text);
+            this.font.draw(this.x, this.y +Window.workspaces.get(Window.workspaces.size() - 1).deltaY, this.text);
         }
     }
 
     private void processInput() {
-        if ((Gdx.input.getX() <= (this.x+this.width))
-              && (Gdx.input.getX() >= this.x+this.font.layout.width*8)
-              && (Gdx.graphics.getHeight() -Gdx.input.getY() <=  this.y + Window.workspace.deltaY)
-              && (Gdx.graphics.getHeight() -Gdx.input.getY() >= ( this.y - this.height + Window.workspace.deltaY))) {
+        if (     (Gdx.input.getX() <= (this.x + this.width))
+              && (Gdx.input.getX() >= this.x + this.font.layout.width * 8)
+              && (Gdx.graphics.getHeight() - Gdx.input.getY() <= this.y + Window.workspaces.get(Window.workspaces.size() - 1).deltaY)
+              && (Gdx.graphics.getHeight() - Gdx.input.getY() >= this.y - this.height + Window.workspaces.get(Window.workspaces.size() - 1).deltaY)) {
                 if (!this.was_selected) {
                     this.was_selected = true;
                 }
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     if (this.action.startsWith("load=")) {
-                        Window.workspace.setWorkspace(this.action.substring(5));
+                        Window.openSubsection(this.action.substring(5));
                     }
                 }
         }

@@ -30,6 +30,7 @@ public class Shader {
     public void bind() {
         Gdx.gl30.glUseProgram(this.ProgramID);
     }
+
     public void unbind() {
         Gdx.gl30.glUseProgram(0);
     }

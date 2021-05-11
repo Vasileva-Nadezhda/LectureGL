@@ -10,7 +10,7 @@ import static com.badlogic.gdx.graphics.GL20.*;
 public class Figure implements Drawable {
 
     static Shader FigureShader = new Shader ("core/assets/FigureVShader.vert",
-                                          "core/assets/FigureFShader.frag");
+                                           "core/assets/FigureFShader.frag");
     float[] vertices;
     float[] colors;
     int[]   indices;
@@ -76,7 +76,6 @@ public class Figure implements Drawable {
        Gdx.gl20.glDrawElements(GL_TRIANGLES, this.indices.length, GL_UNSIGNED_INT, 0);
        Gdx.gl30.glBindVertexArray(0);
        FigureShader.unbind();
-
     }
 
     public void dispose(){

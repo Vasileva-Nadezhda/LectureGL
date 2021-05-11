@@ -14,15 +14,15 @@ public class Texture extends Figure implements Drawable {
 
     static Shader TextureShader = new Shader("core/assets/TextureVShader.vert",
                                            "core/assets//TextureFShader.frag");
-
     String location;
     int textureID;
     int posVBO;
     float[] positions;
 
-    public Texture (float[] vertices, float[] colors, float[] positions, int[] indices) {
+    public Texture (float[] vertices, float[] colors, float[] positions, int[] indices, String location) {
         super(vertices, colors, indices);
         this.positions = positions;
+        this.location = location;
     }
 
     @Override
@@ -36,11 +36,11 @@ public class Texture extends Figure implements Drawable {
         Gdx.gl30.glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    public void init (String location) {
+    public void init () {
         super.init();
         this.posVBO = Gdx.gl.glGenBuffer();
         this.initPositions();
-        this.initTexture(location);
+        this.initTexture();
         Gdx.gl30.glBindVertexArray(0);
     }
 
@@ -56,11 +56,11 @@ public class Texture extends Figure implements Drawable {
         Gdx.gl30.glBindVertexArray(0);
     }
 
-    public void initTexture (String location) {
+    public void initTexture () {
         ByteBuffer image_buffer = null;
         int textureWidth = 0;
         int textureHeight = 0;
-        try(InputStream in = new FileInputStream(location)) {
+        try(InputStream in = new FileInputStream(this.location)) {
             // Link the PNG decoder to this stream
             PNGDecoder decoder = new PNGDecoder(in);
             // Get the width and height of the texture
@@ -89,10 +89,8 @@ public class Texture extends Figure implements Drawable {
         Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         // Setup what to do when the texture has to be scaled
-        Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                GL_LINEAR);
-        Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                GL_LINEAR);
+        Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        Gdx.gl20.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         Gdx.gl20.glBindTexture(GL_TEXTURE_2D, 0);
         this.textureID = textureID;
     }

@@ -1,115 +1,109 @@
 package com.project;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import java.util.ArrayList;
 
 public class Interface implements Drawable {
 
-    Figure panel;
-    Button button1;
-    Button button2;
-    Button button3;
-    Button button4;
-    Button button5;
-    String name_of_last_button = "";
+    Figure left_panel;
+    Figure upper_panel;
+    public ArrayList <Button> section_buttons = new ArrayList<>();
+    Button back_button;
+    int id_of_last_button = 4;
 
     public void init() {
-        this.button1.init();
-        this.button2.init();
-        this.button3.init();
-        this.button4.init();
-        this.button5.init();
-        this.panel.init();
+        for (Button button : this.section_buttons) {
+            button.init();
+        }
+        this.back_button.init();
+        this.left_panel.init();
+        this.upper_panel.init();
     }
 
     @Override
     public void draw() {
-        this.button1.draw();
-        this.button2.draw();
-        this.button3.draw();
-        this.button4.draw();
-        this.button5.draw();
-        this.panel.draw();
+        for (Button button : this.section_buttons) {
+            button.draw();
+        }
+        this.left_panel.draw();
+        this.upper_panel.draw();
+        if (Window.workspaces.size() > 1){
+            this.back_button.draw();
+        }
     }
 
     public void dispose() {
-        this.button1.dispose();
-        this.button2.dispose();
-        this.button3.dispose();
-        this.button4.dispose();
-        this.button5.dispose();
-        this.panel.dispose();
+        for (Button button : this.section_buttons) {
+            button.dispose();
+        }
+        this.back_button.dispose();
+        this.section_buttons.clear();
+        this.left_panel.dispose();
+        this.upper_panel.dispose();
     }
 
-    private void moveVertices (float[] vertices, int maxY, int buttonHeight) {
+    private void moveVertices (float[] vertices, int maxY) {
         for (int j = 1; j <= 10; j += 9) {
             vertices[j] = Drawable.setIntY(maxY);
         }
         for (int j = 4; j <= 7; j += 3) {
-            vertices[j] = Drawable.setIntY(maxY-buttonHeight);
+            vertices[j] = Drawable.setIntY(maxY- InterfaceParameters.section_button_height);
         }
     }
 
     public void resize() {
-        int buttonWidth = 100;
-        int buttonHeight = 50;
-        int nameY = 25;
-        int maxY = Gdx.graphics.getHeight();
+        int maxY = Gdx.graphics.getHeight() - InterfaceParameters.upper_panel_height;
         float[] vertices = {
-                Drawable.setIntX(buttonWidth),  Drawable.setIntY(maxY),                 0.0f,
-                Drawable.setIntX(buttonWidth),  Drawable.setIntY(maxY-buttonHeight),    0.0f,
-                -1.0f,                          Drawable.setIntY(maxY-buttonHeight),    0.0f,
-                -1.0f,                          Drawable.setIntY(maxY),                 0.0f
+                Drawable.setIntX(InterfaceParameters.section_button_width), Drawable.setIntY(maxY),                                              0.0f,
+                Drawable.setIntX(InterfaceParameters.section_button_width), Drawable.setIntY(maxY - InterfaceParameters.section_button_height),  0.0f,
+                -1.0f,                                                      Drawable.setIntY(maxY - InterfaceParameters.section_button_height),  0.0f,
+                -1.0f,                                                      Drawable.setIntY(maxY),                                              0.0f
         };
-        this.button1.body.vertices = vertices;
-        this.button1.body.initVertices();
-        this.button1.name.y = maxY - nameY;
-        this.button1.initPoses();
-        maxY -= buttonHeight;
-        moveVertices(vertices, maxY, buttonHeight);
-        this.button2.body.vertices = vertices;
-        this.button2.body.initVertices();
-        this.button2.name.y = maxY - nameY;
-        this.button2.initPoses();
-        maxY -= buttonHeight;
-        moveVertices(vertices, maxY, buttonHeight);
-        this.button3.body.vertices = vertices;
-        this.button3.body.initVertices();
-        this.button3.name.y = maxY-nameY;
-        this.button3.initPoses();
-        maxY -= buttonHeight;
-        moveVertices(vertices, maxY, buttonHeight);
-        this.button4.body.vertices = vertices;
-        this.button4.body.initVertices();
-        this.button4.name.y = maxY - nameY;
-        this.button4.initPoses();
-        maxY -= buttonHeight;
-        moveVertices(vertices, maxY, buttonHeight);
-        this.button5.body.vertices = vertices;
-        this.button5.body.initVertices();
-        this.button5.name.y = maxY - nameY;
-        this.button5.initPoses();
+        for (int i = 0; i < this.section_buttons.size(); ++i) {
+            this.section_buttons.get(i).body.vertices = vertices;
+            this.section_buttons.get(i).body.initVertices();
+            this.section_buttons.get(i).name.y = maxY - InterfaceParameters.nameY;
+            this.section_buttons.get(i).initPoses();
+            if (i < this.section_buttons.size() - 1) {
+                maxY -= InterfaceParameters.section_button_height;
+                moveVertices(vertices, maxY);
+            }
+        }
         vertices = new float[] {
-                Drawable.setIntX(buttonWidth), Drawable.setIntY(maxY-buttonHeight),     0.0f,
-                Drawable.setIntX(buttonWidth), -1.0f,                                   0.0f,
-                -1.0f,                         -1.0f,                                   0.0f,
-                -1.0f,                         Drawable.setIntY(maxY-buttonHeight),     0.0f
+                Drawable.setIntX(InterfaceParameters.section_button_width), Drawable.setIntY(maxY- InterfaceParameters.section_button_height),  0.0f,
+                Drawable.setIntX(InterfaceParameters.section_button_width), -1.0f,                                                              0.0f,
+                -1.0f,                                                      -1.0f,                                                              0.0f,
+                -1.0f,                                                      Drawable.setIntY(maxY- InterfaceParameters.section_button_height),  0.0f
         };
-        this.panel.vertices = vertices;
-        this.panel.initVertices();
+        this.left_panel.vertices = vertices;
+        this.left_panel.initVertices();
+        maxY = Gdx.graphics.getHeight();
+        vertices = new float[] {
+                1.0f,   1.0f,                                                           0.0f,
+                1.0f,   Drawable.setIntY(maxY- InterfaceParameters.upper_panel_height), 0.0f,
+                -1.0f,  Drawable.setIntY(maxY- InterfaceParameters.upper_panel_height), 0.0f,
+                -1.0f,  1.0f,                                                           0.0f
+        };
+        this.upper_panel.vertices = vertices;
+        this.upper_panel.initVertices();
+        vertices = new float[] {
+                Drawable.setIntX(InterfaceParameters.upper_panel_height),   1.0f,                                                           0.0f,
+                Drawable.setIntX(InterfaceParameters.upper_panel_height),   Drawable.setIntY(maxY- InterfaceParameters.upper_panel_height), 0.0f,
+                -1.0f,                                                      Drawable.setIntY(maxY- InterfaceParameters.upper_panel_height), 0.0f,
+                -1.0f,                                                      1.0f,                                                           0.0f
+        };
+        this.back_button.body.vertices = vertices;
+        this.back_button.body.initVertices();
+        this.back_button.initPoses();
     }
 
     public Interface() {
-        int buttonWidth = 100;
-        int buttonHeight = 50;
-        int nameX = 28;
-        int nameY = 25;
-        int maxY = Gdx.graphics.getHeight();
+        int maxY = Gdx.graphics.getHeight() - InterfaceParameters.upper_panel_height;
         float[] vertices = {
-                Drawable.setIntX(buttonWidth),  Drawable.setIntY(maxY),                                  0.0f,
-                Drawable.setIntX(buttonWidth),  Drawable.setIntY(maxY-buttonHeight),                     0.0f,
-                -1.0f,                          Drawable.setIntY(maxY-buttonHeight),                     0.0f,
-                -1.0f,                          Drawable.setIntY(maxY),                                  0.0f
+                Drawable.setIntX(InterfaceParameters.section_button_width),  Drawable.setIntY(maxY),                                              0.0f,
+                Drawable.setIntX(InterfaceParameters.section_button_width),  Drawable.setIntY(maxY - InterfaceParameters.section_button_height),  0.0f,
+                -1.0f,                                                       Drawable.setIntY(maxY - InterfaceParameters.section_button_height),  0.0f,
+                -1.0f,                                                       Drawable.setIntY(maxY),                                              0.0f
         };
         float[] colors = {
                 InterfaceParameters.INTERFACE_BUTTON.r, InterfaceParameters.INTERFACE_BUTTON.g, InterfaceParameters.INTERFACE_BUTTON.b, 1.0f,
@@ -121,55 +115,79 @@ public class Interface implements Drawable {
                 0, 1, 2,
                 0, 3, 2
         };
-        this.button1 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                            "maths1", nameX, maxY - nameY,
-                                  ()-> {
-                                        this.button1.wasSelected = true;
-                                        Window.workspace.contentLocation="./core/assets/maths1.theory";
-                                        Window.workspace.init();
-                                  });
-        maxY -= buttonHeight;
-        moveVertices(vertices, maxY, buttonHeight);
-        this.button2 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                            "maths2", nameX, maxY - nameY,
-                                  ()-> {
-                                        this.button2.wasSelected = true;
-                                        Window.workspace.contentLocation="./core/assets/maths2.theory";
-                                        Window.workspace.init();
-                                  });
-        maxY -= buttonHeight;
-        moveVertices(vertices, maxY, buttonHeight);
-        this.button3 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                            "Physics", nameX, maxY - nameY,
-                                  ()-> {
-                                        this.button3.wasSelected = true;
-                                        Window.workspace.contentLocation="./core/assets/physics.theory";
-                                        Window.workspace.init();
-                                  });
-        maxY -= buttonHeight;
-        moveVertices(vertices, maxY, buttonHeight);
-        this.button4 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                            "Chemistry", nameX, maxY - nameY,
-                                  ()-> {
-                                        this.button4.wasSelected = true;
-                                        Window.workspace.contentLocation="./core/assets/chemistry.theory";
-                                        Window.workspace.init();
-                                  });
-        moveVertices(vertices, maxY, buttonHeight);
-        this.button5 = new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()), null,
-                            "Gallery", nameX, maxY - nameY,
-                                  ()-> {
-                                        this.button5.wasSelected = true;
-                                        Window.workspace.contentLocation="./core/assets/gallery.theory";
-                                        Window.workspace.init();
-                                  });
+        this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
+                                      "maths1", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
+                                            ()-> {
+                                                this.section_buttons.get(0).wasSelected = true;
+                                                Window.openSection("./core/assets/maths1.theory");
+                                            }));
+        maxY -= InterfaceParameters.section_button_height;
+        moveVertices(vertices, maxY);
+        this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
+                                      "maths2", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
+                                            ()-> {
+                                                this.section_buttons.get(1).wasSelected = true;
+                                                Window.openSection("./core/assets/maths2.theory");
+                                            }));
+        maxY -= InterfaceParameters.section_button_height;
+        moveVertices(vertices, maxY);
+        this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
+                                      "Physics", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
+                                            ()-> {
+                                                this.section_buttons.get(2).wasSelected = true;
+                                                Window.openSection("./core/assets/physics.theory");
+                                            }));
+        maxY -= InterfaceParameters.section_button_height;
+        moveVertices(vertices, maxY);
+        this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
+                                      "Chemistry", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
+                                            ()-> {
+                                                this.section_buttons.get(3).wasSelected = true;
+                                                Window.openSection("./core/assets/chemistry.theory");
+                                            }));
+        maxY -= InterfaceParameters.section_button_height;
+        moveVertices(vertices, maxY);
+        this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
+                                      "Gallery", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
+                                            ()-> {
+                                                this.section_buttons.get(4).wasSelected = true;
+                                                Window.openSection("./core/assets/gallery.theory");
+                                            }));
         vertices = new float[] {
-                Drawable.setIntX(buttonWidth), Drawable.setIntY(maxY-buttonHeight), 0.0f,
-                Drawable.setIntX(buttonWidth), -1.0f,                               0.0f,
-                -1.0f,                         -1.0f,                               0.0f,
-                -1.0f,                         Drawable.setIntY(maxY-buttonHeight), 0.0f
+                Drawable.setIntX(InterfaceParameters.section_button_width), Drawable.setIntY(maxY - InterfaceParameters.section_button_height), 0.0f,
+                Drawable.setIntX(InterfaceParameters.section_button_width), -1.0f,                                                              0.0f,
+                -1.0f,                                                      -1.0f,                                                              0.0f,
+                -1.0f,                                                      Drawable.setIntY(maxY - InterfaceParameters.section_button_height), 0.0f
         };
-        this.panel = new Figure (vertices.clone(), colors.clone(), indices);
+        this.left_panel = new Figure (vertices.clone(), colors.clone(), indices);
+        maxY = Gdx.graphics.getHeight();
+        vertices = new float[] {
+                1.0f,    1.0f,                                                               0.0f,
+                1.0f,    Drawable.setIntY(maxY - InterfaceParameters.upper_panel_height),    0.0f,
+                -1.0f,   Drawable.setIntY(maxY - InterfaceParameters.upper_panel_height),    0.0f,
+                -1.0f,   1.0f,                                                               0.0f
+        };
+        this.upper_panel = new Figure(vertices.clone(), colors, indices);
+        vertices = new float[] {
+                Drawable.setIntX(InterfaceParameters.upper_panel_height),   1.0f,                                                               0.0f,
+                -1.0f,                                                      1.0f,                                                               0.0f,
+                -1.0f,                                                      Drawable.setIntY(maxY - InterfaceParameters.upper_panel_height),    0.0f,
+                Drawable.setIntX(InterfaceParameters.upper_panel_height),   Drawable.setIntY(maxY - InterfaceParameters.upper_panel_height),    0.0f
+        };
+        colors = new float[] {
+                1.0f, 1.0f, 1.0f, 0.0f,
+                1.0f, 1.0f, 1.0f, 0.0f,
+                1.0f, 1.0f, 1.0f, 0.0f,
+                1.0f, 1.0f, 1.0f, 0.0f
+        };
+        this.back_button = new Button(new Texture(vertices, colors,
+                                      new float[] {
+                                              1, 0,
+                                              1, 1,
+                                              0, 1,
+                                              0, 0
+                                      },
+                                      indices, "./core/assets/back.png"), Window::closeLastSubsection);
     }
 
 }

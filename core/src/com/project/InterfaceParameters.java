@@ -7,6 +7,11 @@ public class InterfaceParameters {
     public static Font HEADER_FONT;
     public static Font MAIN_FONT;
     public static Font BUTTON_FONT;
+    public static int section_button_width = 100;
+    public static int section_button_height = 50;
+    public static int upper_panel_height = (int) (section_button_height * 0.6);
+    public static int nameY = 25;
+    public static int nameX = 28;
 
     enum Colors {
         BLACK,

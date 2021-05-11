@@ -16,24 +16,23 @@ public class WorkspaceLoader {
     int startX;
 
     private Picture loadPicture() {
-        int x, y = this.nowY, width = 0, height = 0;
+        int y = this.nowY, width = 0, height = 0;
         String location = "";
         this.str = this.scanner.nextLine();
         while (!this.str.contains("{{PIC}}")) {
             if (this.str.startsWith("width=")) {
-                width = Integer.parseInt(this.str.substring(6)) * Gdx.graphics.getWidth() / 640;
+                width = Integer.parseInt(this.str.substring(6));
             }
             else if (this.str.startsWith("height=")) {
-                height = Integer.parseInt(this.str.substring(7)) * Gdx.graphics.getHeight() / 480;
+                height = Integer.parseInt(this.str.substring(7));
             }
             else if (this.str.startsWith("location=")) {
                 location = this.str.substring(9);
             }
             this.str = this.scanner.nextLine();
         }
-        x = (Gdx.graphics.getWidth() / 2) - (width / 2) + 50;
-        this.nowY -= height + 15;
-        return new Picture(x, y, width, height, location);
+        this.nowY -= height * Gdx.graphics.getHeight() / 480 + 15;
+        return new Picture(y, width, height, location);
     }
 
     private Link loadLink (String tag) {
@@ -64,7 +63,7 @@ public class WorkspaceLoader {
                 line = line.replace(tag + "\n", "");
                 this.layout.setText(font.font, line);
                 while (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
-                    length = (int)((this.layout.width - (Gdx.graphics.getWidth() - this.startX)) / font.layout.width);
+                    length = (int) ((this.layout.width - (Gdx.graphics.getWidth() - this.startX)) / font.layout.width);
                     int i = 0;
                     this.layout.setText(font.font, line.substring(0, line.length() - length + i));
                     if (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
@@ -87,7 +86,7 @@ public class WorkspaceLoader {
                 break;
             }
             while (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
-                length = (int)((this.layout.width - (Gdx.graphics.getWidth() - this.startX)) / font.layout.width);
+                length = (int) ((this.layout.width - (Gdx.graphics.getWidth() - this.startX)) / font.layout.width);
                 int i = 0;
                 this.layout.setText(font.font, line.substring(0, line.length() - length + i));
                 if (this.layout.width > Gdx.graphics.getWidth() - this.startX) {
@@ -122,7 +121,7 @@ public class WorkspaceLoader {
         this.nowY = startY;
         this.startX = startX;
         int picture_count = 0;
-        boolean load_picture = workspace.pictures == null || workspace.pictures.isEmpty();
+        boolean load_picture = (workspace.pictures == null) || workspace.pictures.isEmpty();
         InterfaceParameters.HEADER_FONT.layout.setText(InterfaceParameters.HEADER_FONT.font, "W");
         InterfaceParameters.MAIN_FONT.layout.setText(InterfaceParameters.MAIN_FONT.font, "W");
         try {
@@ -169,4 +168,3 @@ public class WorkspaceLoader {
     }
 
 }
-

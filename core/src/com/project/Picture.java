@@ -8,9 +8,9 @@ public class Picture{
     String location;
     int minX, maxY;
     int width, height;
+    float resize_coefficient;
 
-    public Picture (int minX, int maxY, int width, int height, String location) {
-        this.minX = minX;
+    public Picture (int maxY, int width, int height, String location) {
         this.maxY = maxY;
         this.width = width;
         this.height = height;
@@ -21,6 +21,15 @@ public class Picture{
         if (this.picture != null) {
             this.picture.dispose();
         }
+        if ((Gdx.graphics.getWidth() != 640) && (Gdx.graphics.getHeight() == 480)) {
+            this.resize_coefficient = Gdx.graphics.getWidth() / 640.0f;
+        }
+        else {
+            this.resize_coefficient = Gdx.graphics.getHeight() / 480.0f;
+        }
+        this.width = (int) (this.width * this.resize_coefficient);
+        this.height = (int) (this.height * this.resize_coefficient);
+        this.minX = (Gdx.graphics.getWidth() / 2) - (width / 2) + 50;
         this.picture = new Texture(new float[] {
                 Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY),                0.0f,
                 Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY - this.height),  0.0f,
@@ -42,8 +51,9 @@ public class Picture{
                 new int[] {
                         0, 1, 3,
                         1, 2, 3
-                });
-        this.picture.init(this.location);
+                },
+                this.location);
+        this.picture.init();
     }
 
     public void draw() {
@@ -51,12 +61,20 @@ public class Picture{
     }
 
     public void resizeParameters() {
-        this.height = Drawable.resizeY(this.height);
-        this.width = Drawable.resizeX(this.width);
+        this.width = (int) (this.width / this.resize_coefficient);
+        this.height = (int) (this.height / this.resize_coefficient);
+        if ((Gdx.graphics.getWidth() != 640) && (Gdx.graphics.getHeight() == 480)) {
+            this.resize_coefficient = Gdx.graphics.getWidth() / 640.0f;
+        }
+        else {
+            this.resize_coefficient = Gdx.graphics.getHeight() / 480.0f;
+        }
+        this.width = (int) (this.width * this.resize_coefficient);
+        this.height = (int) (this.height * this.resize_coefficient);
         this.minX = (Gdx.graphics.getWidth() / 2) - (this.width / 2) + 50;
     }
 
-    public void resize (int deltaY) {
+    public void change (int deltaY) {
         this.picture.vertices = new float[] {
                 Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY + deltaY),                 0.0f,
                 Drawable.setIntX(this.minX),              Drawable.setIntY(this.maxY + deltaY - this.height),   0.0f,
