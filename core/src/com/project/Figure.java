@@ -9,8 +9,8 @@ import static com.badlogic.gdx.graphics.GL20.*;
 
 public class Figure implements Drawable {
 
-    static Shader FigureShader = new Shader ("core/assets/FigureVShader.vert",
-                                           "core/assets/FigureFShader.frag");
+    static Shader FigureShader = new Shader ("./resources/Shaders/FigureVShader.vert",
+                                           "./resources/Shaders/FigureFShader.frag");
     float[] vertices;
     float[] colors;
     int[]   indices;
@@ -87,6 +87,10 @@ public class Figure implements Drawable {
         Gdx.gl20.glDeleteBuffer(this.colVBO);
         Gdx.gl20.glDeleteBuffer(this.vertVBO);
         Gdx.gl20.glDeleteBuffer(this.EBO);
+    }
+
+    public static void deleteShader() {
+        Gdx.gl.glDeleteProgram(FigureShader.ProgramID);
     }
 
 }

@@ -44,6 +44,7 @@ public class Workspace implements Drawable{
             pic.init();
         }
         this.deltaY = 0;
+        this.resize();
     }
 
     public void draw() {
@@ -66,11 +67,7 @@ public class Workspace implements Drawable{
     }
 
     public void resize() {
-        for (SimpleText string : this.strings) {
-            if (string instanceof Link) {
-                ((Link) string).dispose();
-            }
-        }
+        this.deltaY = 0;
         this.strings.clear();
         for (Picture pic : this.pictures) {
             pic.resizeParameters();
@@ -91,11 +88,6 @@ public class Workspace implements Drawable{
     public void dispose() {
         for (Picture pic : this.pictures) {
             pic.dispose();
-        }
-        for (SimpleText string : this.strings) {
-            if (string instanceof Link) {
-                ((Link) string).dispose();
-            }
         }
         this.strings.clear();
         this.pictures.clear();

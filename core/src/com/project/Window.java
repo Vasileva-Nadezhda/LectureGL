@@ -20,7 +20,8 @@ public class Window extends ApplicationAdapter {
 		an_interface.init();
 		oldHeight = Gdx.graphics.getHeight();
 		oldWidth = Gdx.graphics.getWidth();
-		workspaces.add(new Workspace("./core/assets/gallery.theory"));
+		workspaces.add(new Workspace("./resources/Interface/Gallery.theory"));
+		an_interface.id_of_last_button = 2;
 		workspaces.get(workspaces.size() - 1).init();
 		Workspace.input_adapter = new InputAdapter();
 		workspaces.get(0).setInputAdapter();
@@ -60,6 +61,7 @@ public class Window extends ApplicationAdapter {
 		workspaces.get(workspaces.size() - 1).dispose();
 		workspaces.remove(workspaces.size() - 1);
 		workspaces.get(workspaces.size() - 1).setInputAdapter();
+		workspaces.get(workspaces.size() - 1).resize();
 	}
 
 	@Override
@@ -68,9 +70,7 @@ public class Window extends ApplicationAdapter {
 			Gdx.graphics.setWindowedMode(640, 480);
 		}
 		an_interface.resize();
-		for (Workspace workspace : workspaces) {
-			workspace.resize();
-		}
+		workspaces.get(workspaces.size() - 1).resize();
 		oldHeight = Gdx.graphics.getHeight();
 		oldWidth = Gdx.graphics.getWidth();
 		System.gc();
@@ -83,7 +83,10 @@ public class Window extends ApplicationAdapter {
 			workspace.dispose();
 		}
 		workspaces.clear();
+		Link.deleteFont();
 		InterfaceParameters.dispose();
+		Figure.deleteShader();
+		Texture.deleteShader();
 	}
 
 }

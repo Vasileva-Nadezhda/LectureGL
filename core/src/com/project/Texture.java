@@ -12,8 +12,8 @@ import java.nio.FloatBuffer;
 
 public class Texture extends Figure implements Drawable {
 
-    static Shader TextureShader = new Shader("core/assets/TextureVShader.vert",
-                                           "core/assets//TextureFShader.frag");
+    static Shader TextureShader = new Shader("./resources/Shaders/TextureVShader.vert",
+                                           "./resources/Shaders/TextureFShader.frag");
     String location;
     int textureID;
     int posVBO;
@@ -99,6 +99,10 @@ public class Texture extends Figure implements Drawable {
         super.dispose();
         Gdx.gl.glDeleteTexture(this.textureID);
         Gdx.gl.glDeleteBuffer(this.posVBO);
+    }
+
+    public static void deleteShader() {
+        Gdx.gl.glDeleteProgram(TextureShader.ProgramID);
     }
 
 }

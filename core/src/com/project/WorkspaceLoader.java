@@ -31,7 +31,7 @@ public class WorkspaceLoader {
             }
             this.str = this.scanner.nextLine();
         }
-        this.nowY -= height * Gdx.graphics.getHeight() / 480 + 15;
+        this.nowY -= height * Gdx.graphics.getHeight() / 480 + 5;
         return new Picture(y, width, height, location);
     }
 
@@ -40,7 +40,7 @@ public class WorkspaceLoader {
         while (!s.startsWith("load=") && !s.startsWith("copy=")) {
             s = scanner.nextLine();
         }
-        StringBuilder text = this.processTag(tag + this.scanner.nextLine(), tag);
+        StringBuilder text = this.processTag(tag + this.scanner.nextLine() , tag);
         Font font = tag.contains("MAIN") ? InterfaceParameters.MAIN_FONT : InterfaceParameters.HEADER_FONT;
         return new Link (this.startX, this.nowY, font, text.toString(), s);
     }
@@ -55,9 +55,17 @@ public class WorkspaceLoader {
         else if (tag.equals("{{HEADER}}") || tag.equals("{{HEADER-LINK}}")) {
             font = InterfaceParameters.HEADER_FONT;
         }
-        line = line.replaceFirst("\\{\\{" + tag.substring(2), "        ");
+        else if (tag.equals("{{DEFINITION}}")) {
+            font = InterfaceParameters.DEFINITION_FONT;
+        }
+        if (!tag.contains("LINK")) {
+            line = line.replaceFirst("\\{\\{" + tag.substring(2), "      ");
+        }
+        else {
+            line = line.replaceFirst("\\{\\{" + tag.substring(2), "");
+        }
         this.layout = new GlyphLayout();
-        while (scanner.hasNextLine() || line.endsWith(tag + "\n")) {
+        while (scanner.hasNextLine() || line.endsWith(tag+"\n")) {
             this.layout.setText(font.font, line);
             if (line.endsWith(tag + "\n")) {
                 line = line.replace(tag + "\n", "");
@@ -79,6 +87,9 @@ public class WorkspaceLoader {
                         }
                     }
                     string.append(line, 0, line.length() - length + i).append("\n");
+                    if (line.charAt(line.length() - length + i) == ' ') {
+                        i++;
+                    }
                     line = line.substring(line.length() - length + i);
                     this.layout.setText(font.font, line);
                 }
@@ -102,6 +113,9 @@ public class WorkspaceLoader {
                     }
                 }
                 string.append(line, 0, line.length() - length + i).append("\n");
+                if (line.charAt(line.length() - length + i) == ' ') {
+                    i++;
+                }
                 line = line.substring(line.length() - length + i);
                 this.layout.setText(font.font, line);
             }
@@ -124,6 +138,7 @@ public class WorkspaceLoader {
         boolean load_picture = (workspace.pictures == null) || workspace.pictures.isEmpty();
         InterfaceParameters.HEADER_FONT.layout.setText(InterfaceParameters.HEADER_FONT.font, "W");
         InterfaceParameters.MAIN_FONT.layout.setText(InterfaceParameters.MAIN_FONT.font, "W");
+        InterfaceParameters.DEFINITION_FONT.layout.setText(InterfaceParameters.DEFINITION_FONT.font, "W");
         try {
             this.scanner = new Scanner(new InputStreamReader(new FileInputStream(location), StandardCharsets.UTF_8));
             while (scanner.hasNextLine()) {
@@ -142,13 +157,18 @@ public class WorkspaceLoader {
                 else if (this.str.contains("{{MAIN-LINK}}")) {
                     workspace.addItem(loadLink("{{MAIN-LINK}}"));
                 }
+                else if (this.str.contains("{{DEFINITION}}")) {
+                    workspace.addItem(new SimpleText(this.startX, nowY, InterfaceParameters.DEFINITION_FONT,
+                            processTag(this.str, "{{DEFINITION}}").toString()));
+                }
                 else if (this.str.contains("{{PIC}}")) {
+                    this.nowY -= 5;
                     if (load_picture) {
                         workspace.addItem(loadPicture());
                     }
                     else if (workspace.pictures.size() - 1 >= picture_count){
                         workspace.pictures.get(picture_count).maxY = this.nowY;
-                        this.nowY -= workspace.pictures.get(picture_count).height + 15;
+                        this.nowY -= workspace.pictures.get(picture_count).height + 5;
                         picture_count++;
                         while (!this.str.contains("{{PIC}}")) {
                             this.str = this.scanner.nextLine();
@@ -158,6 +178,7 @@ public class WorkspaceLoader {
             }
             InterfaceParameters.HEADER_FONT.layout.setText(InterfaceParameters.HEADER_FONT.font, " ");
             InterfaceParameters.MAIN_FONT.layout.setText(InterfaceParameters.MAIN_FONT.font, " ");
+            InterfaceParameters.DEFINITION_FONT.layout.setText(InterfaceParameters.DEFINITION_FONT.font, " ");
         }
         catch (Exception e) {
             e.printStackTrace();

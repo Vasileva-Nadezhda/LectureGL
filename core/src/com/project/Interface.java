@@ -116,42 +116,26 @@ public class Interface implements Drawable {
                 0, 3, 2
         };
         this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
-                                      "maths1", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
+                                      "Maths", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
                                             ()-> {
                                                 this.section_buttons.get(0).wasSelected = true;
-                                                Window.openSection("./core/assets/maths1.theory");
-                                            }));
-        maxY -= InterfaceParameters.section_button_height;
-        moveVertices(vertices, maxY);
-        this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
-                                      "maths2", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
-                                            ()-> {
-                                                this.section_buttons.get(1).wasSelected = true;
-                                                Window.openSection("./core/assets/maths2.theory");
+                                                Window.openSection("./resources/Maths/SubSections.theory");
                                             }));
         maxY -= InterfaceParameters.section_button_height;
         moveVertices(vertices, maxY);
         this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
                                       "Physics", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
                                             ()-> {
-                                                this.section_buttons.get(2).wasSelected = true;
-                                                Window.openSection("./core/assets/physics.theory");
-                                            }));
-        maxY -= InterfaceParameters.section_button_height;
-        moveVertices(vertices, maxY);
-        this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
-                                      "Chemistry", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
-                                            ()-> {
-                                                this.section_buttons.get(3).wasSelected = true;
-                                                Window.openSection("./core/assets/chemistry.theory");
+                                                this.section_buttons.get(1).wasSelected = true;
+                                                Window.openSection("./resources/Physics/SubSections.theory");
                                             }));
         maxY -= InterfaceParameters.section_button_height;
         moveVertices(vertices, maxY);
         this.section_buttons.add(new Button(new Figure(vertices.clone(), colors.clone(), indices.clone()),
                                       "Gallery", InterfaceParameters.nameX, maxY - InterfaceParameters.nameY,
                                             ()-> {
-                                                this.section_buttons.get(4).wasSelected = true;
-                                                Window.openSection("./core/assets/gallery.theory");
+                                                this.section_buttons.get(2).wasSelected = true;
+                                                Window.openSection("./resources/Interface/Gallery.theory");
                                             }));
         vertices = new float[] {
                 Drawable.setIntX(InterfaceParameters.section_button_width), Drawable.setIntY(maxY - InterfaceParameters.section_button_height), 0.0f,
@@ -187,7 +171,7 @@ public class Interface implements Drawable {
                                               0, 1,
                                               0, 0
                                       },
-                                      indices, "./core/assets/back.png"), Window::closeLastSubsection);
+                                      indices, "./resources/Interface/back.png"), Window::closeLastSubsection);
     }
 
 }

@@ -11,9 +11,10 @@ import com.badlogic.gdx.math.Matrix4;
 
 public class Font implements Drawable {
 
-    final static String BOLD = "core/assets/Bold.ttf";
-    final static String REGULAR = "core/assets/Regular.ttf";
-    final static String CHARACTERS = "αβ1234567890!@\"#№$;%^:&?*()-_=+\\|/'.><,{[]}`~qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ";
+    final static String BOLD = "./resources/Fonts/Bold.ttf";
+    final static String REGULAR = "./resources/Fonts/Regular.ttf";
+    final static String BOLD_OBLIQUE = "./resources/Fonts/BoldOblique.ttf";
+    final static String CHARACTERS = "≠⊂∈∉ℕℤℚ∉⊂∅αβ1234567890!@\"#№$;%^:&?*()-_=+\\|/'.><,{[]}`~qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ";
     static Matrix4 matrix;
     String location;
     Color color;

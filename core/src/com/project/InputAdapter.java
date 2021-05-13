@@ -86,18 +86,18 @@ public class InputAdapter implements InputProcessor {
             if (!this.workspace.strings.isEmpty()) {
                 SimpleText string = this.workspace.strings.get(this.workspace.strings.size() - 1);
                 if ((pic != null) && ((pic.maxY - pic.height) < string.y)) {
-                    if (pic.maxY - pic.height + this.workspace.deltaY <= 0) {
+                    if (pic.maxY - pic.height + this.workspace.deltaY <= 5) {
                         this.workspace.deltaY += scroll;
                         this.workspace.scroll();
                     }
                 }
-                else if ((string.y + this.workspace.deltaY - string.height) <= 0) {
+                else if ((string.y + this.workspace.deltaY - string.height) <= 5) {
                     this.workspace.deltaY += scroll;
                     this.workspace.scroll();
                 }
             }
             else {
-                if (pic.maxY - pic.height + this.workspace.deltaY <= 0) {
+                if (pic.maxY - pic.height + this.workspace.deltaY <= 5) {
                     this.workspace.deltaY += scroll;
                     this.workspace.scroll();
                 }
